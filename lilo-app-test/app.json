@@ -1,0 +1,12 @@
+{
+  "name": "lilo-app-test",
+  "displayName": "lilo-app-test",
+  "expo": {
+    "name": "lilo-app-test",
+    "slug": "lilo-app-test",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
