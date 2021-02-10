@@ -3,6 +3,17 @@ import { View, Button, Image } from 'react-native';
 // import Video from 'react-native-video';
 // import PropTypes from 'prop-types';
 // import useNavigatorPermissions from 'react-use-navigator-permissions';
+// import {
+//     RTCPeerConnection,
+//     RTCIceCandidate,
+//     RTCSessionDescription,
+//     RTCView,
+//     MediaStream,
+//     MediaStreamTrack,
+//     mediaDevices,
+//     registerGlobals,
+//   } from 'react-native-webrtc';
+
 
 export default function Test() {
     const [startButton, setStartButton] = useState(false);
@@ -60,6 +71,11 @@ export default function Test() {
         setCallButton(false)
         setHangupButton(true)
         setStopButton(true)
+
+        // stop local audio
+        await stopVideoStream()
+
+        // end call
     };
 
     const stopLocalVideo = async () => {
@@ -69,9 +85,13 @@ export default function Test() {
         setStopButton(true)
 
         // stop local audio 
-        localStream.getAudioTracks()[0].stop()
-        console.log("stopped!")
+        await stopVideoStream()
     };
+
+    const stopVideoStream = async () => {
+         localStream.getAudioTracks()[0].stop()
+         console.log("stopped!")
+    }
 
     return(
         <View>

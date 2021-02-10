@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import Calling from './Components/CallingOLD';
+// import Calling from './Components/CallingOLD';
 import Test from './Components/Calling';
 import { StyleSheet, Text, View } from 'react-native';
 
