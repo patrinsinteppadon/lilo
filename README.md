@@ -40,7 +40,7 @@ The purpose of this app is to provide live one-to-one translation and interpreti
 * Language ID: int
 * Language Name: text
 
-If we implement our own sign-in 
+<---If we implement our own sign-in--->
 **New User** 
 * Email: text
 * Phone Number: text 
@@ -52,6 +52,7 @@ If we implement our own sign-in
 **Credentials** 
 * Email || Phone Number || Username: text
 * Password: text
+<------------------------------------->
 
 #### API Endpoints
 **User**
