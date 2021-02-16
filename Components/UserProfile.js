@@ -1,41 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
 
-/**
- * todo:
- * - controlling for things like positioning or size. Its so HARD
- */
 export default function UserProfile() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.h1}>User Profile</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, padding: 16, alignItems: 'center' }}>
+        <Text style={styles.h1}>User Profile</Text>
 
-      {/* ideally I can create a container here to group/separate content */}
-      <Image source={require('./kronk.jpg')} style={styles.profileImg}/>
-      <Text>Kronk</Text>
-    </View>
+        <View style= {{ flex: 1, alignItems: 'center' }}>
+          <Image source={require('./../assets/kronk.jpg')} style={styles.profileImg}/>
+          <Text>Kronk</Text>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
+// todo: figure out if img's need to be relative, rather than hardcoded at 300
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    borderWidth: 3,
-    height: '80%',
-  },
-
   profileImg: {
-    // width: '400px',
-    height: '40%',
+    width: 300,
+    height: 300,
     resizeMode: 'cover',
     
+    marginBottom: 20,
     borderWidth: 3,
     borderColor: 'black',
   },
 
   h1: {
     fontWeight: 'bold',
+    fontSize: 40,
     marginBottom: 70, 
   }
 });
