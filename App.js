@@ -8,7 +8,7 @@ import 'firebase/database';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={{marginBottom: '5px'}}>Testing! Welcome to the app!</Text>
+      <Text>Testing! Welcome to the app!</Text>
       <StatusBar style="auto" />
 
       <UserProfile />
@@ -16,8 +16,6 @@ export default function App() {
   );
 }
 
-// do we need to work with Stylesheet instead of using CSS files?
-// maybe that's something specific to react Native
 const styles = StyleSheet.create({
   container: {
     flex: 1,
