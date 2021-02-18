@@ -21,6 +21,8 @@ export default function Test() {
     const [hangupButton, setHangupButton] = useState(true);
     const [stopButton, setStopButton] = useState(true);
     const [localStream, setLocalStream] = useState(null);
+    const [pc1, setPC1] = useState({});
+    const [pc2, setPC2] = useState({});
 
     const startLocalVideo = async () => {
         // enable call and stop (local video) buttons
@@ -61,8 +63,112 @@ export default function Test() {
         //     console.log('using video device: ' + videoTracks[0].label)
         // }
         const configuration = {}
-        //pc1 = new RTCPeerConnection(configuration)
+        setPC1(new RTCPeerConnection(configuration))
+        setPC1(pc1.onicecandidate = (e) => {
+            onIceCandidate(pc1, e)
+        })
+
+        setPC2(new RTCPeerConnection(configuration))
+        setPC2(pc2.onicecandidate = (e) => {
+            onIceCandidate(pc2, e)
+        })
+
+        setPC1(pc1.iceconnectionstatechange = (e) => {
+            onIceStateChange(pc1, e)
+        })
+        setPC2(pc2.iceconnectionstatechange = (e) => {
+            onIceStateChange(pc2, e)
+        })
+        setPC2(pc2.track = () => {
+            console.log("pc 2 got some remote stream")
+        })
+
+        // localStream.getTracks().forEach(track => setPC1(pc1.track = localStream));
+        localStream.getTracks().forEach(track => setPC1(track))
+        console.log("added stream to PC1 i think")
+
+        try {
+            console.log('pc1 createOffer start');
+            const offer = await pc1.createOffer();
+            await onCreateOfferSuccess(offer);
+        } catch (e) {
+            // onCreateSessionDescriptionError(e);
+            console.log("error in create offer")
+            console.log(e.message)
+        }
+        // pc1.addEventListener('icecandidate', e => onIceCandidate(pc1, e));
+        // pc2 = new RTCPeerConnection(configuration);
+        // console.log('Created remote peer connection object pc2');
+        // pc2.addEventListener('icecandidate', e => onIceCandidate(pc2, e));
+        // pc1.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc1, e));
+        // pc2.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc2, e));
+        // pc2.addEventListener('track', gotRemoteStream);
+      
+        // localStream.getTracks().forEach(track => pc1.addTrack(track, localStream));
+        // console.log('Added local stream to pc1');
+      
+        // try {
+        //   console.log('pc1 createOffer start');
+        //   const offer = await pc1.createOffer(offerOptions);
+        //   await onCreateOfferSuccess(offer);
+        // } catch (e) {
+        //   onCreateSessionDescriptionError(e);
+        // }
     };
+
+    const onCreateOfferSuccess = async (desc) => {
+        console.log("in create offer success");
+    }
+    // async function onCreateOfferSuccess(desc) {
+    //     console.log(`Offer from pc1\n${desc.sdp}`);
+    //     console.log('pc1 setLocalDescription start');
+    //     try {
+    //       await pc1.setLocalDescription(desc);
+    //       onSetLocalSuccess(pc1);
+    //     } catch (e) {
+    //       onSetSessionDescriptionError();
+    //     }
+      
+    //     console.log('pc2 setRemoteDescription start');
+    //     try {
+    //       await pc2.setRemoteDescription(desc);
+    //       onSetRemoteSuccess(pc2);
+    //     } catch (e) {
+    //       onSetSessionDescriptionError();
+    //     }
+      
+    //     console.log('pc2 createAnswer start');
+    //     // Since the 'remote' side has no media stream we need
+    //     // to pass in the right constraints in order for it to
+    //     // accept the incoming offer of audio and video.
+    //     try {
+    //       const answer = await pc2.createAnswer();
+    //       await onCreateAnswerSuccess(answer);
+    //     } catch (e) {
+    //       onCreateSessionDescriptionError(e);
+    //     }
+    //   }
+
+    const onIceCandidate = async (pc, event) => {
+        console.log("on Ice Candidate: ", pc)
+        onAddIceCandidateSuccess(pc)
+        // try {
+        //     await (getOtherPc(pc).addIceCandidate(event.candidate));
+        //     onAddIceCandidateSuccess(pc);
+        // } catch (e) {
+        //     // onIceCandidateError(pc, e);
+        //     console.log("no success with addIceCandidate")
+        // }
+        // console.log(`${getName(pc)} ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
+    }
+
+    const onAddIceCandidateSuccess = (pc) => {
+        console.log("addIceCandidate success")
+    }
+
+    const onIceStateChange = (pc, e) => {
+        console.log("onIceStateChange")
+    }
 
     const stopRemoteVideo = async () => {
         // enable call button and start button
