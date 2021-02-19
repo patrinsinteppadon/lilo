@@ -34,15 +34,15 @@ const styles = StyleSheet.create({
         fontSize: 50,
     },
     welcomeText: {
-        paddingTop: '20px',
-        paddingBottom: '20px',
+        paddingTop: 20,
+        paddingBottom: 20,
     },
     buttonContainer: {
-        marginTop: '50px',
+        marginTop: 50,
     },
     addSpacing: {
-        marginTop: '5px',
-        marginBottom: '5px',
+        marginTop: 5,
+        marginBottom: 5,
     }
   });
 
