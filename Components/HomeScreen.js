@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Button } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
     return (
-        <View class="main-page-container">
+        <View class="main-page-container" style={{ flex: 1, padding: 16,}}>
             <Text style={styles.titleText}>Lilo</Text>
             <Text style={styles.welcomeText}>Welcome, [Username]!</Text>
             <View style={styles.buttonContainer}>
@@ -28,10 +28,12 @@ const styles = StyleSheet.create({
     titleText: {
         color: 'darkblue',
         fontSize: 50,
+        textAlign: 'center'
     },
     welcomeText: {
         paddingTop: 20,
         paddingBottom: 20,
+        textAlign: 'center'
     },
     buttonContainer: {
         marginTop: 50,
