@@ -23,18 +23,15 @@ import HomeScreen from './pages/HomeScreen';
 import DetailsScreen from './pages/DetailsScreen';
 import ProfileScreen from './pages/ProfileScreen';
 import SettingsScreen from './pages/SettingsScreen';
-import TestScreen from './Components/TestScreen';
 
 // instantiate Navigators
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 /* 
-  questions about HomeStack:
-  - could these stacks be their own modular function? 
-  - is a stack the instance of the nav itself? or just one part of it?
-  - for Stack.Screen: what does 'name' attribute do? and what does 'options.title do?
-  
+  schema
+  - 2 tabs on our bottom nav: HomeTab, and UserTab
+  - 2 stacks to supplement the tabs: HomeStack, and UserStack
 */
 function HomeStack() {
   return (
@@ -54,29 +51,6 @@ function HomeStack() {
         name="Details"
         component={DetailsScreen}
         options={{ title: 'Details Page'}}/>
-      <Stack.Screen 
-        name="Test"
-        component={TestScreen}
-        options={{ title: 'Testing! In Home Stack'}}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function TestStack() {
-  return (
-    <Stack.Navigator
-      initialRouteName="Test"
-      screenOptions={{
-        headerStyle: { backgroundColor: '#42f44b'},
-        headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: 'bold' }
-      }}>
-      <Stack.Screen
-        name="Test"
-        component={TestScreen}
-        options={{ title: 'Testing! Title Text'}} 
-      />
     </Stack.Navigator>
   );
 }
@@ -116,7 +90,7 @@ export default function App() {
       <Tab.Navigator>
         <Tab.Screen
           name="HomeStack"
-          component={TestStack}
+          component={HomeStack}
           options={{
             tabBarLabel: 'Home',
             tabBarIcon: ({color, size}) => (
