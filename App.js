@@ -2,8 +2,10 @@
 // https://aboutreact.com/react-native-bottom-navigation/
 import 'react-native-gesture-handler';
 import React from 'react';
-import { StatusBar } from 'expo-status-bar'; 
 import { StyleSheet, Text, View } from 'react-native';
+import UserProfile from './Components/UserProfile.js';
+// import firebase from 'firebase/app';
+// import 'firebase/database';
 
 // following tutorial from https://aboutreact.com/react-native-bottom-navigation/
 import {
@@ -19,6 +21,7 @@ import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import Main from './Components/Main'
 import HomeScreen from './pages/HomeScreen';
 import DetailsScreen from './pages/DetailsScreen';
 import ProfileScreen from './pages/ProfileScreen';
@@ -124,8 +127,23 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
+    backgroundColor: 'lightblue',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
 });
+
+  // // Initialize Firebase
+  // var firebaseConfig = {
+  //   apiKey: "AIzaSyAYH0zqdMHO0mhj0ee_7_kZyIEtn7vaOHA",
+  //   authDomain: "capstone-lilo.firebaseapp.com",
+  //   databaseURL: "https://capstone-lilo-default-rtdb.firebaseio.com",
+  //   projectId: "capstone-lilo",
+  //   storageBucket: "capstone-lilo.appspot.com",
+  //   messagingSenderId: "457024640739",
+  //   appId: "1:457024640739:web:8e31884b8a6b002a8357d6",
+  //   measurementId: "G-L2BJQKHLZP"
+  // };
+
+  // firebase.initializeApp(firebaseConfig);
