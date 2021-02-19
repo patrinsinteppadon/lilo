@@ -7,6 +7,13 @@ import {
   SafeAreaView
 } from 'react-native';
 
+/**
+ * NOTE
+ * <-------------------> 
+ * this is an unused screen from the React Bottom Navigation tutorial
+ * its code is useful for getting an idea of React Native best practice.
+ * For the full example, check the example_bottomnav branch.
+ */
 const SettingsScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>

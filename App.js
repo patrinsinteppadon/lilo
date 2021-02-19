@@ -3,7 +3,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import UserProfile from './Components/UserProfile.js';
 // import firebase from 'firebase/app';
 // import 'firebase/database';
 
@@ -21,8 +20,8 @@ import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Main from './Components/Main'
-import HomeScreen from './pages/HomeScreen';
+import HomeScreen from './Components/HomeScreen.js' // TODO: rename to homescreen
+import UserScreen from './Components/UserScreen.js';
 import DetailsScreen from './pages/DetailsScreen';
 import ProfileScreen from './pages/ProfileScreen';
 import SettingsScreen from './pages/SettingsScreen';
@@ -62,27 +61,19 @@ function HomeStack() {
 // of the navigation, but we send this info along to Settings bc the Settings
 // page will need to navigate you to Details and Profiles if you click on
 // the corresponding button while you're there
-function SettingsStack() {
+function UserStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Settings"
+      initialRouteName="User"
       screenOptions={{
         headerStyle: { backgroundColor: '#42f44b' },
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: 'bold' }
       }}>
       <Stack.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{ title: 'Settings Page' }}/>
-      <Stack.Screen
-        name="Details"
-        component={DetailsScreen}
-        options={{ title: 'Details Page' }}/>
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{ title: 'Profile Page' }}/>
+        name="User"
+        component={UserScreen}
+        options={{ title: 'User Profile' }}/>
     </Stack.Navigator>
   );
 }
@@ -106,13 +97,13 @@ export default function App() {
           }}  
         />
         <Tab.Screen
-          name="SettingsStack"
-          component={SettingsStack}
+          name="UserStack"
+          component={UserStack}
           options={{
-            tabBarLabel: 'Settings',
+            tabBarLabel: 'Profile',
             tabBarIcon: ({color, size}) => (
               <MaterialCommunityIcons 
-                name="settings"
+                name="human"
                 color={color}
                 size={size}
               />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
 
-export default function UserProfile() {
+export default function UserScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, padding: 16, alignItems: 'center' }}>

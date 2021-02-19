@@ -8,6 +8,14 @@ import {
 } from 'react-native';
 
 /**
+ * NOTE
+ * <-------------------> 
+ * this is an unused screen from the React Bottom Navigation tutorial
+ * its code is useful for getting an idea of React Native best practice.
+ * For the full example, check the example_bottomnav branch.
+ */
+
+/**
  * 
  * @param {object} navigation - holds a reference to other screens, so you can
  * direct user to other pages, even though HomeScreen doesn't have a reference

@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 
+/**
+ * this is a placeholder screen with most of its code as a leftover
+ * from the React Bottom Navigation tutorial
+ */
 const DetailsScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -17,7 +21,7 @@ const DetailsScreen = () => {
               textAlign: 'center',
               marginBottom: 16
             }}>
-            You are on Details Screen
+            You are on a placeholder screen
           </Text>
         </View>
         <Text
