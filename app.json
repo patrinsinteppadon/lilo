@@ -1,0 +1,12 @@
+{
+  "name": "lilo",
+  "displayName": "lilo",
+  "expo": {
+    "name": "lilo",
+    "slug": "lilo",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
