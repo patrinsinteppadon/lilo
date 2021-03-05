@@ -9,15 +9,19 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.buttonContainer}>
                 <View style={styles.addSpacing}>
                     <Button 
+                        title="Request a translator" 
+                        color="steelblue" 
+                        onPress={() => alert("Showing languages modal...")}
+                    />
+                </View>
+                <View style={styles.addSpacing}>
+                    <Button 
                         title="Profile" 
                         color="steelblue" 
                         onPress={
                             () => navigation.navigate(
                                 'UserStack', { screen: 'User' }
                             )} />
-                </View>
-                <View style={styles.addSpacing}>
-                    <Button title="call Translator" color="steelblue" onPress={() => alert("Starting call...")}/>
                 </View>
             </View>
         </View>
