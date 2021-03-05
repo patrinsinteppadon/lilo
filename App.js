@@ -20,7 +20,7 @@ import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import HomeScreen from './Components/HomeScreen.js' // TODO: rename to homescreen
+import HomeScreen from './Components/HomeScreen.js'
 import UserScreen from './Components/UserScreen.js';
 import DetailsScreen from './pages/DetailsScreen';
 import ProfileScreen from './pages/ProfileScreen';
@@ -40,7 +40,7 @@ function HomeStack() {
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerStyle: { backgroundColor: '#42f44b'},
+        headerStyle: { backgroundColor: '#4A69D9'},
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: 'bold' }
       }}>
@@ -48,6 +48,7 @@ function HomeStack() {
         name="Home"
         component={HomeScreen}
         options={{ title: 'Home Page'}} 
+        username="Bill"
       /> 
       <Stack.Screen 
         name="Details"
