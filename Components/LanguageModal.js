@@ -5,13 +5,17 @@ import {
     Text, 
     Pressable, 
     Modal, 
-    Alert 
 } from 'react-native';
 import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
 
-// todo: font type is "mulish"
+/**
+ * TODO: all the things that still need to get done for this component
+ * - the font type is "mulish"
+ * - include dropdown boxes with language select. 
+ *   https://www.npmjs.com/package/react-native-material-dropdown
+ */
 /**
  * the language select modal. Used in HomeScreen.
  * user indicates the preferred languages of the call here, 
@@ -21,39 +25,41 @@ from 'react-native-vector-icons/MaterialCommunityIcons';
  */
 const LanguageModal = ({ modalVisible, setModalVisible }) => {
   return (
-      <View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => { setModalVisible(!modalVisible) }}
-        >
-          <View style={styles.centeredView}>
+    <View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => { setModalVisible(!modalVisible) }}
+      >
+        <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <MaterialCommunityIcons 
-              style={{ alignSelf: 'flex-end' }}
-              name="close"
-              size={30}
-              onPress={() => setModalVisible(!modalVisible)}
-            />
             <View>
-              <Text style={styles.modalHeaderText}>I speak:</Text>
-              <Text style={styles.modalText}>You will talk in this language with your translator</Text>
-              {/* include dropdown box here */}
-              <Text style={styles.modalHeaderText}>I need help with:</Text>
-              <Text style={styles.modalText}>You will receive translation for this language</Text>
-              {/* include dropdown box here */}
+              <MaterialCommunityIcons 
+                style={{ alignSelf: 'flex-end' }}
+                name="close"
+                size={30}
+                onPress={() => setModalVisible(!modalVisible)}
+              />
+              <View>
+                <Text style={styles.modalHeaderText}>I speak:</Text>
+                <Text style={styles.modalText}>You will talk in this language with your translator</Text>
+                {/* include dropdown box here */}
+                <Text style={styles.modalHeaderText}>I need help with:</Text>
+                <Text style={styles.modalText}>You will receive translation for this language</Text>
+                {/* include dropdown box here */}
+              </View>
             </View>
+            
             <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => alert('Finding a translator..')}
               >
-              <Text style={styles.buttonText}>
-                Request Help Now</Text>
+              <Text style={styles.buttonText}>Request Help Now</Text>
             </Pressable>
           </View>
-          </View>
-        </Modal>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -75,7 +81,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
         padding: 35,
-        // alignItems: "center", hopefully this isnt needed
+        justifyContent: 'space-between',
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -86,7 +92,6 @@ const styles = StyleSheet.create({
         elevation: 5
       },
       button: {
-        marginTop: 200, // instead of this, anchor btn to bottom of screen
         backgroundColor: '#4A69D9',
         width: '100%',
         borderRadius: 20,
