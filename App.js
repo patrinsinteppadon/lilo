@@ -67,7 +67,7 @@ function UserStack() {
     <Stack.Navigator
       initialRouteName="User"
       screenOptions={{
-        headerStyle: { backgroundColor: '#42f44b' },
+        headerStyle: { backgroundColor: '#4A69D9' },
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: 'bold' }
       }}>
