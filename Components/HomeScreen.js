@@ -1,5 +1,14 @@
-import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import React, { useState } from 'react';
+import LanguageModal from './LanguageModal.js';
+import { 
+    StyleSheet, 
+    View, 
+    Text, 
+    Button, 
+    Pressable, 
+    Modal, 
+    Alert 
+} from 'react-native';
 import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,12 +25,18 @@ const username = "Bill";
  * 
  * TODO: 
  *  - Finish lowfi mockup for home page
- *  - Create Select Language modal
+ *  - Create Select Language modal.  https://reactnative.dev/docs/modal
+ *       - convert modal into a separate component
+ *       - figure out how to dim the main screen while modal is active
+ *          (maybe set background to black, with transparency. see info340)
+ *       - fill out the remainder of the modal, to match the hi-fi
+ *  - create empty screen which will house the Call
  *  - Figure out how to use Icons from react-native-elements library
  */
 const HomeScreen = ({ navigation }) => {
+    const [modalVisible, setModalVisible] = useState(false);
     return (
-        <View class="main-page-container" style={{ flex: 1, padding: 16,}}>
+        <View class="main-page-container" style={{ flex: 1, padding: 16 }}>
             <View style={styles.header}>
                 <Text style={styles.welcomeText}>
                     Welcome, {username}!
@@ -41,7 +56,7 @@ const HomeScreen = ({ navigation }) => {
                     <Button 
                         title="Request a translator" 
                         color="steelblue" 
-                        onPress={() => alert("Showing languages modal...")}
+                        onPress={() => setModalVisible(true)}
                     />
                 </View>
             </View>
@@ -64,6 +79,12 @@ const HomeScreen = ({ navigation }) => {
                         onPress={() => alert("Showing tips...")}
                     />
             </View>
+
+            {/* language select modal */}
+            <LanguageModal
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+            />
         </View>
     );
 }
@@ -105,7 +126,7 @@ const styles = StyleSheet.create({
         marginTop: 180,
         // figure out how to anchor it to the bottom of the window.
         // with a marginBottom of 5 or something
-    }
+    },
   });
 
 export default HomeScreen;
