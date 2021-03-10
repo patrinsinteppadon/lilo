@@ -5,6 +5,7 @@ import {
     Text, 
     Pressable, 
     Modal, 
+    Button, // temporary placeholder for dropdowns
 } from 'react-native';
 import
  MaterialCommunityIcons
@@ -23,7 +24,7 @@ from 'react-native-vector-icons/MaterialCommunityIcons';
  * 
  * https://reactnative.dev/docs/modal
  */
-const LanguageModal = ({ modalVisible, setModalVisible }) => {
+const LanguageModal = ({ navigation, modalVisible, setModalVisible }) => {
   return (
     <View>
       <Modal
@@ -44,17 +45,32 @@ const LanguageModal = ({ modalVisible, setModalVisible }) => {
               <View>
                 <Text style={styles.modalHeaderText}>I speak:</Text>
                 <Text style={styles.modalText}>You will talk in this language with your translator</Text>
-                {/* include dropdown box here */}
+                {/* replace this button w/ dropdown */}
+                <Button 
+                  style={{ marginBottom: 50 }}
+                  title="" 
+                  color="gray" 
+                />
+
                 <Text style={styles.modalHeaderText}>I need help with:</Text>
                 <Text style={styles.modalText}>You will receive translation for this language</Text>
-                {/* include dropdown box here */}
+                {/* replace this button w/ dropdown */}
+                <Button 
+                  style={{ marginBottom: 50 }}
+                  title="" 
+                  color="gray" 
+                />
               </View>
             </View>
             
             <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => alert('Finding a translator..')}
-              >
+                onPress={() => {
+                    navigation.navigate('Call') ;
+                    setModalVisible(!modalVisible);
+                  }
+                }
+            >
               <Text style={styles.buttonText}>Request Help Now</Text>
             </Pressable>
           </View>

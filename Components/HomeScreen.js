@@ -82,6 +82,7 @@ const HomeScreen = ({ navigation }) => {
 
             {/* language select modal */}
             <LanguageModal
+                navigation={navigation}
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
             />
