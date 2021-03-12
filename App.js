@@ -1,514 +1,132 @@
-// // import Socket from 'socket.io-client';
-// import { View, Button, StyleSheet, Text, SafeAreaView } from 'react-native';
-// import React, { useState } from 'react';
-// import {
-//     RTCPeerConnection,
-//     RTCIceCandidate,
-//     RTCSessionDescription,
-//     RTCView,
-//     MediaStream,
-//     MediaStreamTrack,
-//     mediaDevices,
-//     registerGlobals,
-//   } from 'react-native-webrtc';
+// React Native Bottom Navigation
+// https://aboutreact.com/react-native-bottom-navigation/
+import 'react-native-gesture-handler';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+// import firebase from 'firebase/app';
+// import 'firebase/database';
 
-// const config = {
-//   iceServers: [
-//     {
-//       urls: ['stun:stun.l.google.com:19302'],
-//     },
-//   ],
-// };
-
-// const styles = StyleSheet.create({
-//   stream: {
-//     flex: 1, 
-//     display: 'flex'
-//   }
-// });
-
-// // establish two peer connections (local)
-// const pc1 = new RTCPeerConnection(config);
-// const pc2 = new RTCPeerConnection(config);
-// const offerOptions = {
-//   offerToReceiveAudio: 1,
-//   offerToReceiveVideo: 1
-// };
-
-// const App = () => {
-//   const [startButton, setStartButton] = useState(false);
-//   const [callButton, setCallButton] = useState(true);
-//   const [hangupButton, setHangupButton] = useState(true);
-//   const [stopButton, setStopButton] = useState(true);
-//   const [localStream, setLocalStream] = useState(null);
-//   const [remoteStream, setRemoteStream] = useState(null);
-
-//   const startLocalVideo = async () => {
-//     // enable call and stop (local video) buttons
-//     // disable start button
-//     setStartButton(true)
-//     setCallButton(false)
-//     setStopButton(false)
-
-//     // // local stream
-//     let stream 
-
-//     // start local audio stream
-//     try {
-//       // get permission from user 
-//       // once user gives permission (first time), doesn't ask again
-
-//       // get local audio and video stream
-//       stream = await mediaDevices.getUserMedia({audio:true, video:true})
-//       setLocalStream(stream)
-
-//       console.log("successfully started video")
-//       console.log(stream.toURL())
-//     } catch (e) {
-//       console.log("error in start local video")
-//       console.log(e)
-//     }
-//   };
-
-//   const startCall = async () => {
-//     // enable hangup button
-//     // disable call button
-//     setHangupButton(false)
-//     setCallButton(true)
-    
-//     // print local audio and video stream devices
-//     const audioTracks = localStream.getAudioTracks();
-//     const videoTracks = localStream.getVideoTracks();
-//     if (audioTracks.length > 0) {
-//       console.log('using audio device: ' + audioTracks[0].label)
-//     }
-//     if (videoTracks.length > 0) {
-//         console.log('using video device: ' + videoTracks[0].label)
-//     }
-
-//     // start remote video and connect
-//     // on ice candidate
-//     pc1.onicecandidate = async function (event) {
-//       try {
-//         await (pc2.addIceCandidate(event.candidate));
-//         console.log("pc1 onIceCandidate success");
-//       } catch (e) {
-//           console.log("pc1 onIceCandidate error: ", e.toString());
-//       }
-//       console.log(`pc1 ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
-//     };
-//     pc2.onicecandidate = async function (event) {
-//       try {
-//           await (pc1.addIceCandidate(event.candidate));
-//           console.log("pc2 onIceCandidate success");
-//       } catch (e) {
-//           console.log("pc2 onIceCandidate error: ", e.toString());
-//       }
-//       console.log(`pc2 ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
-//     };
-
-//     // on ice candidate change 
-//     pc1.oniceconnectionstatechange = function(event) {
-//       console.log(`pc1 ICE state: ${pc1.iceConnectionState}`);
-//       console.log('ICE state change event: ', event);
-//     }
-//     pc2.oniceconnectionstatechange = function(event) {
-//       console.log(`pc2 ICE state: ${pc2.iceConnectionState}`);
-//       console.log('ICE state change event: ', event);
-//     }
-
-//     // add remote stream to second (remote) peer connection
-//     pc2.ontrack = function(event) {
-//       if (remoteStream !== event.streams[0]) {
-//           setRemoteStream(event.streams[0])
-//           console.log('pc2 received remote stream');
-//       }
-//     }
-//     // add local stream tracks to first (local) peer connection 
-//     // localStream.getTracks().forEach(track => pc1.addTrack(track, localStream));
-//     // console.log("add local stream to pc1")
-
-//     // create offer (connection) between peer connections
-//     try {
-//       console.log('pc1 createOffer start');
-//       const offer = await pc1.createOffer(offerOptions);
-//       await onCreateOfferSuccess(offer);
-//     } catch (e) {
-//         onCreateSessionDescriptionError(e);
-//     }
-//   }
-
-//   const onCreateOfferSuccess = async (desc) => {
-//     console.log(`Offer from pc1\n${desc.sdp}`);
-//     console.log('pc1 setLocalDescription start');
-//     try {
-//       await pc1.setLocalDescription(desc);
-//       console.log("success on create offer (pc1)")
-//     } catch (e) {
-//       console.log("error on create offer (pc1)")
-//       console.log(e.message)
-//     }
-  
-//     console.log('pc2 setRemoteDescription start');
-//     try {
-//       await pc2.setRemoteDescription(desc);
-//       console.log("success on create offer (pc2)")
-//     } catch (e) {
-//         console.log("error on create offer (pc2)")
-//         console.log(e.message)
-//     }
-  
-//     console.log('pc2 createAnswer start');
-//     // Since the 'remote' side has no media stream we need
-//     // to pass in the right constraints in order for it to
-//     // accept the incoming offer of audio and video.
-//     try {
-//       const answer = await pc2.createAnswer();
-//       await onCreateAnswerSuccess(answer);
-//     } catch (e) {
-//         console.log(e.message)
-//     }
-//   }
-
-//   const onCreateAnswerSuccess = async (desc) => {
-//     console.log(`ANSWER FROM pc2:\n${desc.sdp}`);
-//     console.log('pc2 setLocalDescription start');
-//     try {
-//       await pc2.setLocalDescription(desc);
-//       console.log("on create answer success")
-//     } catch (e) {
-//       console.log(e.message);
-//       console.log("on create answer fail")
-//     }
-//     console.log('pc1 setRemoteDescription start');
-//     try {
-//       await pc1.setRemoteDescription(desc);
-//       console.log("on create answer success")
-//     } catch (e) {
-//       console.log(e.message)
-//       console.log("on create answer fail")
-//     }
-//   }
-
-//   const endCall = async () => {
-//     // enable call button and start button
-//     // disable hangup button and stop button
-//     setStartButton(false)
-//     setCallButton(false)
-//     setHangupButton(true)
-//     setStopButton(true)
-
-//     // stop local audio
-//     await stopVideoStream()
-
-//     // end call
-//     if (remoteStream) {
-//       remoteStream.release();
-//       setRemoteStream(null);
-//     }
-//   }
-
-//   const stopLocalVideo = async () => {
-//     // enable start button 
-//     // disable stop button
-//     setStartButton(false)
-//     setStopButton(true)
-
-//     // stop local audio 
-//     await stopVideoStream()
-//   };
-
-//   const stopVideoStream = async () => {
-//     // localStream.getAudioTracks()[0].stop()
-//     // localStream.getVideoTracks()[0].stop()
-//     if (localStream) {
-//       localStream.release();
-//       setLocalStream(null);
-//     }
-//     console.log("stopped!")
-//   }
-
-//   return(
-//     <SafeAreaView style={styles.body}>
-//         <SafeAreaView class="video-display">
-//             {localStream && <RTCView streamURL={localStream.toURL()} style={styles.stream} />}
-//             {/* {remoteStream && <RTCView streamURL={remoteStream.toURL()} />} */}
-//             {localStream && <Text>{localStream.toURL()}</Text>}
-//             <Text>Hello!</Text>
-//         </SafeAreaView>
-//         <View class="buttons" style={styles.footer}>
-//             <Button title="start video" disabled={startButton} onPress={startLocalVideo} />
-//             <Button title="call" disabled={callButton} onPress={startCall} />
-//             <Button title="hang up" disabled={hangupButton} onPress={endCall}/>
-//             <Button title="stop video" disabled={stopButton} onPress={stopLocalVideo} />
-//         </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default App;
-
-import { View, Button, StyleSheet, SafeAreaView, Text } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import React, { useState } from 'react';
+// following tutorial from https://aboutreact.com/react-native-bottom-navigation/
 import {
-    RTCPeerConnection,
-    RTCIceCandidate,
-    RTCSessionDescription,
-    RTCView,
-    MediaStream,
-    MediaStreamTrack,
-    mediaDevices,
-    registerGlobals,
-} from 'react-native-webrtc';
+  NavigationContainer
+} from '@react-navigation/native';
+import {
+  createStackNavigator
+} from '@react-navigation/stack';
+import {
+  createBottomTabNavigator
+} from '@react-navigation/bottom-tabs';
+import
+ MaterialCommunityIcons
+from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import HomeScreen from './Components/HomeScreen.js'
+import UserScreen from './Components/UserScreen.js';
+import CallScreen from './Components/CallScreen';
+import DetailsScreen from './pages/DetailsScreen'; // take out in mvp
+import ProfileScreen from './pages/ProfileScreen';
+import SettingsScreen from './pages/SettingsScreen';
+
+// instantiate Navigators
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+/* 
+  schema
+  - 2 tabs on our bottom nav: HomeTab, and UserTab
+  - 2 stacks to supplement the tabs: HomeStack, and UserStack
+*/
+function HomeStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerStyle: { backgroundColor: '#4A69D9'},
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: 'bold' }
+      }}>
+      <Stack.Screen 
+        name="Home"
+        component={HomeScreen}
+        options={{ title: 'Home Page'}} 
+        username="Bill"
+      /> 
+      <Stack.Screen 
+        name="Details"
+        component={DetailsScreen}
+        options={{ title: 'Details Page'}}/>
+      <Stack.Screen 
+        name="Call"
+        component={CallScreen}
+        options={{ title: 'Calling...'}}/>
+    </Stack.Navigator>
+  );
+}
+
+// seems like more of a backend manifest. Tab Navigator is the frontend part
+// of the navigation, but we send this info along to Settings bc the Settings
+// page will need to navigate you to Details and Profiles if you click on
+// the corresponding button while you're there
+function UserStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="User"
+      screenOptions={{
+        headerStyle: { backgroundColor: '#4A69D9' },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: 'bold' }
+      }}>
+      <Stack.Screen
+        name="User"
+        component={UserScreen}
+        options={{ title: 'User Profile' }}/>
+    </Stack.Navigator>
+  );
+}
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="HomeStack"
+          component={HomeStack}
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons 
+                name="home"
+                color={color}
+                size={size}
+              />
+            ),
+          }}  
+        />
+        <Tab.Screen
+          name="UserStack"
+          component={UserStack}
+          options={{
+            tabBarLabel: 'Profile',
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons 
+                name="human"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
 
 const styles = StyleSheet.create({
-  body: {
-    backgroundColor: Colors.white,
-    ...StyleSheet.absoluteFill
-  },
-  stream: {
-    flex: 1
-  },
-  footer: {
-    backgroundColor: Colors.lighter,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0
+  container: {
+    flex: 1,
+    // backgroundColor: '#fff',
+    backgroundColor: 'lightblue',
+    alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
-
-// webRTC Peer Connection variables
-const config = {
-  iceServers: [
-    {
-      urls: ['stun:stun.l.google.com:19302'],
-    },
-  ],
-};
-const pc1 = new RTCPeerConnection(config);
-const pc2 = new RTCPeerConnection(config);
-const offerOptions = {
-  offerToReceiveAudio: 1,
-  offerToReceiveVideo: 1
-};
-
-const App = () => {
-  const [startButton, setStartButton] = useState(false);
-  const [callButton, setCallButton] = useState(true);
-  const [hangupButton, setHangupButton] = useState(true);
-  const [stopButton, setStopButton] = useState(true);
-  const [localStream, setLocalStream] = useState(null);
-  const [remoteStream, setRemoteStream] = useState(null);
-
-  const startLocalVideo = async () => {
-    // enable call and stop (local video) buttons
-    // disable start button
-    setStartButton(true)
-    setCallButton(false)
-    setStopButton(false)
-
-    console.log("start local video")
-    if (!localStream) {
-      let s;
-      try {
-        s = await mediaDevices.getUserMedia({audio:true, video:{ facingMode: "user" }})
-        setLocalStream(s)
-      } catch (e) {
-        console.error(e)
-      }
-    }
-  };
-
-  const connectRemoteVideo = async () => {
-    // enable hangup button
-    // disable call button
-    setHangupButton(false)
-    setCallButton(true)
-
-    // print local audio and video stream devices
-    const audioTracks = localStream.getAudioTracks();
-    const videoTracks = localStream.getVideoTracks();
-    if (audioTracks.length > 0) {
-      console.log('using audio device: ' + audioTracks[0].label)
-    }
-    if (videoTracks.length > 0) {
-        console.log('using video device: ' + videoTracks[0].label)
-    }
-
-    // start remote video and connect
-    // on ice candidate
-    pc1.onicecandidate = async function (event) {
-      try {
-        await (pc2.addIceCandidate(event.candidate));
-        console.log("pc1 onIceCandidate success");
-      } catch (e) {
-        console.log("pc1 onIceCandidate error: ", e.toString());
-      }
-      console.log(`pc1 ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
-    };
-    pc2.onicecandidate = async function (event) {
-      try {
-          await (pc1.addIceCandidate(event.candidate));
-          console.log("pc2 onIceCandidate success");
-      } catch (e) {
-          console.log("pc2 onIceCandidate error: ", e.toString());
-      }
-      console.log(`pc2 ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
-    };
-
-    // on ice candidate change 
-    pc1.oniceconnectionstatechange = function(event) {
-      console.log(`pc1 ICE state: ${pc1.iceConnectionState}`);
-      console.log('ICE state change event: ', event);
-    }
-    pc2.oniceconnectionstatechange = function(event) {
-      console.log(`pc2 ICE state: ${pc2.iceConnectionState}`);
-      console.log('ICE state change event: ', event);
-    }
-
-    // add remote stream to second (remote) peer connection
-    // setRemoteStream(localStream);
-    if (!remoteStream) {
-      let rs;
-      try {
-        rs = await mediaDevices.getUserMedia({audio:true, video:{ facingMode: "environment" }})
-        setRemoteStream(rs)
-      } catch (e) {
-        console.error(e)
-      }
-    }
-    // pc2.ontrack = function(event) {
-    //   if (remoteStream !== event.streams[0]) {
-    //       setRemoteStream(event.streams[0])
-    //       console.log('pc2 received remote stream');
-    //   } else {
-    //     console.log('pc2 did not receive a remote stream');
-    //   }
-    // }
-
-    // add local stream tracks to first (local) peer connection 
-    // localStream.getTracks().forEach(track => pc1.addTrack(track, localStream));
-    // console.log("add local stream to pc1")
-
-    // create offer (connection) between peer connections
-    try {
-      console.log('pc1 createOffer start');
-      const offer = await pc1.createOffer(offerOptions);
-      await onCreateOfferSuccess(offer);
-    } catch (e) {
-        // onCreateSessionDescriptionError(e);
-        console.error(e);
-    }
-  }
-
-  const onCreateOfferSuccess = async (desc) => {
-    console.log(`Offer from pc1\n${desc.sdp}`);
-    console.log('pc1 setLocalDescription start');
-    try {
-      await pc1.setLocalDescription(desc);
-      console.log("success on create offer (pc1)")
-    } catch (e) {
-      console.log("error on create offer (pc1)")
-      console.log(e.message)
-    }
-  
-    console.log('pc2 setRemoteDescription start');
-    try {
-      await pc2.setRemoteDescription(desc);
-      console.log("success on create offer (pc2)")
-    } catch (e) {
-      console.log("error on create offer (pc2)")
-      console.error(e.message)
-    }
-  
-    console.log('pc2 createAnswer start');
-    // Since the 'remote' side has no media stream we need
-    // to pass in the right constraints in order for it to
-    // accept the incoming offer of audio and video.
-    try {
-      const answer = await pc2.createAnswer();
-      await onCreateAnswerSuccess(answer);
-    } catch (e) {
-      console.error(e.message)
-    }
-  }
-
-  const onCreateAnswerSuccess = async (desc) => {
-    console.log(`ANSWER FROM pc2:\n${desc.sdp}`);
-    console.log('pc2 setLocalDescription start');
-    try {
-      await pc2.setLocalDescription(desc);
-      console.log("on create answer success")
-    } catch (e) {
-      console.log(e.message);
-      console.log("on create answer fail")
-    }
-    console.log('pc1 setRemoteDescription start');
-    try {
-      await pc1.setRemoteDescription(desc);
-      console.log("on create answer success")
-    } catch (e) {
-      console.log(e.message)
-      console.log("on create answer fail")
-    }
-  }
-
-  const stopRemoteVideo = async () => {
-    // enable call button and start button
-    // disable hangup button and stop button
-    setStartButton(false)
-    setCallButton(false)
-    setHangupButton(true)
-    // setStopButton(true)
-
-    console.log(remoteStream)
-
-    if (remoteStream) {
-      console.log("stop remote Stream")
-      remoteStream.release();
-      setRemoteStream(null);
-    }
-  }
-
-  const stopLocalVideo = async () => {
-    // enable start button 
-    // disable stop button
-    setStartButton(false)
-    setStopButton(true)
-
-    console.log('stop');
-    if (localStream) {
-      localStream.release();
-      setLocalStream(null);
-    }
-  };
-
-  return(
-    <>
-      <SafeAreaView style={styles.body}>
-      {
-        localStream &&
-          <RTCView
-            streamURL={localStream.toURL()}
-            style={styles.stream} />
-      }
-      {
-        remoteStream &&
-          <RTCView
-            streamURL={remoteStream.toURL()}
-            style={styles.stream} />
-      }
-        <View style={styles.footer}>
-          <Button title="start video" disabled={startButton} onPress={startLocalVideo} />
-          <Button title="call" disabled={callButton} onPress={connectRemoteVideo}/>
-          <Button title="hang up" disabled={hangupButton} onPress={stopRemoteVideo} />
-          <Button title="stop video" disabled={stopButton} onPress={stopLocalVideo} />
-        </View>
-      </SafeAreaView>
-    </>
-  );
-};
-
-export default App;
