@@ -18,21 +18,22 @@ const username = "Bill";
 
 /**
  * TODO: 
- * - add an img representing the person you're calling
- * - add an img representing your own camera
- * - add buttons on the bottom to represent the call options
+ * - add behavior to each button when tapped
+ *     - flip should change local video stream to something else
+ *     - camera should turn off local video (hide the img)
+ *     - mute should change the icon to be 'microphone'
+ *     - end should return to the home screen
  */
 const CallScreen = ({ navigation }) => {
     return (
         <View class="main-page-container" style={{ flex: 1, padding: 16 }}>
           {/* the video element would go here */}
           <View style= {{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('./../assets/kronk.jpg')} style={styles.remoteImg}/>
+            <Image source={require('./../assets/kuzco.jpg')} style={styles.remoteImg}/>
           </View>
           <View style= {{ flex: 1, alignItems: 'flex-end' }}>
-            <Image source={require('./../assets/kuzco.jpg')} style={styles.localImg}/>
+            <Image source={require('./../assets/kronk.jpg')} style={styles.localImg}/>
           </View>
-
 
 
           <View style={styles.callOptions}>
