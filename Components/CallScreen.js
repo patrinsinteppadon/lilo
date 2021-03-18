@@ -16,58 +16,73 @@ from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const username = "Bill";
 
-/**
- * TODO: 
- * - add behavior to each button when tapped
- *     - flip should change local video stream to something else
- *     - camera should turn off local video (hide the img)
- *     - mute should change the icon to be 'microphone'
- *     - end should return to the home screen
- */
 const CallScreen = ({ navigation }) => {
-    return (
-        <View class="main-page-container" style={{ flex: 1, padding: 16 }}>
-          {/* the video element would go here */}
-          <View style= {{ flex: 1, alignItems: 'center' }}>
-            <Image source={require('./../assets/kuzco.jpg')} style={styles.remoteImg}/>
-          </View>
-          <View style= {{ flex: 1, alignItems: 'flex-end' }}>
-            <Image source={require('./../assets/kronk.jpg')} style={styles.localImg}/>
-          </View>
+  const [showVideo, setVideo] = useState(true);
+  const [mute, setMute] = useState(false);
+  const [flipCamera, setFlipCamera] = useState(false);
+
+  return (
+    <View class="main-page-container" style={{ flex: 1, padding: 16 }}>
+      {/* remote video */}
+      <View style= {{ flex: 1, alignItems: 'center' }}>
+        <Image source={require('./../assets/kuzco.jpg')} style={styles.remoteImg}/>
+      </View>
+
+      {/* local video */}
+      <View style= {{ flex: 1, alignItems: 'flex-end' }}>
+        { showVideo ? 
+          <Image 
+            source={
+              flipCamera ? 
+                require('./../assets/shampoo.jpg')
+                : require('./../assets/kronk.jpg')} 
+            style={styles.localImg}/> : null }
+      </View>
 
 
-          <View style={styles.callOptions}>
-            <Pressable style={styles.button}>
-              <MaterialCommunityIcons 
-                style={{color: '#F4F5FA'}}
-                name="camera"
-                size={40}
-              />
-            </Pressable>
-            <Pressable style={styles.button}>
-              <MaterialCommunityIcons 
-                style={{color: '#F4F5FA'}}
-                name="microphone-off"
-                size={40}
-              />
-            </Pressable>
-            <Pressable style={styles.button}>
-              <MaterialCommunityIcons 
-                style={{color: '#F4F5FA'}}
-                name="cached"
-                size={40}
-              />
-            </Pressable>
-            <Pressable style={[styles.button, styles.endButton]}>
-              <MaterialCommunityIcons 
-                style={{color: '#F4F5FA'}}
-                name="phone-hangup"
-                size={40}
-              />
-            </Pressable>
-          </View>
-        </View>
-    );
+      <View style={styles.callOptions}>
+        {/* video on/off */}
+        <Pressable style={styles.button}>
+          <MaterialCommunityIcons 
+            style={{color: '#F4F5FA'}}
+            name={ showVideo ? "camera-off" : "camera" }
+            size={40}
+            onPress={() => setVideo(!showVideo)}
+          />
+        </Pressable>
+
+        {/* toggle mute */}
+        <Pressable style={styles.button}>
+          <MaterialCommunityIcons 
+            style={{color: '#F4F5FA'}}
+            name={ mute ? "microphone" : "microphone-off" }
+            size={40}
+            onPress={() => setMute(!mute)}
+          />
+        </Pressable>
+
+        {/* flip camera */}
+        <Pressable style={styles.button}>
+          <MaterialCommunityIcons 
+            style={{color: '#F4F5FA'}}
+            name="cached"
+            size={40}
+            onPress={() => setFlipCamera(!flipCamera)}
+          />
+        </Pressable>
+
+        {/* end call */}
+        <Pressable style={[styles.button, styles.endButton]}>
+          <MaterialCommunityIcons 
+            style={{color: '#F4F5FA'}}
+            name="phone-hangup"
+            size={40}
+            onPress={() => navigation.navigate('Home')}
+          />
+        </Pressable>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
