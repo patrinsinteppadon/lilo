@@ -5,8 +5,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 // import firebase from 'firebase/app';
 // import 'firebase/database';
-
-// following tutorial from https://aboutreact.com/react-native-bottom-navigation/
 import {
   NavigationContainer
 } from '@react-navigation/native';
@@ -67,23 +65,24 @@ function HomeStack() {
 // of the navigation, but we send this info along to Settings bc the Settings
 // page will need to navigate you to Details and Profiles if you click on
 // the corresponding button while you're there
-function UserStack() {
-  return (
-    <Stack.Navigator
-      initialRouteName="User"
-      screenOptions={{
-        headerStyle: { backgroundColor: '#4A69D9' },
-        headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: 'bold' }
-      }}>
-      <Stack.Screen
-        name="User"
-        component={UserScreen}
-        options={{ title: 'User Profile' }}/>
-    </Stack.Navigator>
-  );
-}
+// function UserStack() {
+//   return (
+//     <Stack.Navigator
+//       initialRouteName="User"
+//       screenOptions={{
+//         headerStyle: { backgroundColor: '#4A69D9' },
+//         headerTintColor: '#fff',
+//         headerTitleStyle: { fontWeight: 'bold' }
+//       }}>
+//       <Stack.Screen
+//         name="User"
+//         component={UserScreen}
+//         options={{ title: 'User Profile' }}/>
+//     </Stack.Navigator>
+//   );
+// }
 
+// todo: remove navbar while keeping 'navigation object. OR find a replacement for navigating between Activities
 export default function App() {
   return (
     <NavigationContainer>
@@ -102,7 +101,7 @@ export default function App() {
             ),
           }}  
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="UserStack"
           component={UserStack}
           options={{
@@ -115,7 +114,7 @@ export default function App() {
               />
             ),
           }}
-        />
+        /> */}
       </Tab.Navigator>
     </NavigationContainer>
   );
