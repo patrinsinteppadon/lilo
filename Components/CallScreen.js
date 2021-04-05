@@ -44,7 +44,7 @@ const username = "Bill";
  */
 const CallScreen = ({ navigation }) => {
     const [startButton, setStartButton] = useState(false);
-    const [callButton, setCallButton] = useState(true);
+    const [callButton, setCallButton] = useState(false);
     const [hangupButton, setHangupButton] = useState(true);
     const [stopButton, setStopButton] = useState(true);
     const [localStream, setLocalStream] = useState(null);
