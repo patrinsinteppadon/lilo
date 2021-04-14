@@ -10,6 +10,10 @@ import {
 import MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
 
+
+import {connect} from 'react-redux';
+import {joinRoom} from '../src/store/actions/videoActions';
+
 import {
     RTCPeerConnection,
     RTCIceCandidate,
@@ -279,4 +283,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CallScreen;
+const mapStateToProps = ({video}) =>({video,});
+
+export default connect(mapStateToProps, {joinRoom})(CallScreen);

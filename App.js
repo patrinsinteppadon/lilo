@@ -5,6 +5,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 // import firebase from 'firebase/app';
 // import 'firebase/database';
+import store from './src/store';
+import {Provider} from 'react-redux';
 
 // following tutorial from https://aboutreact.com/react-native-bottom-navigation/
 import {
@@ -86,38 +88,40 @@ function UserStack() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen
-          name="HomeStack"
-          component={HomeStack}
-          options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({color, size}) => (
-              <MaterialCommunityIcons 
-                name="home"
-                color={color}
-                size={size}
-              />
-            ),
-          }}  
-        />
-        <Tab.Screen
-          name="UserStack"
-          component={UserStack}
-          options={{
-            tabBarLabel: 'Profile',
-            tabBarIcon: ({color, size}) => (
-              <MaterialCommunityIcons 
-                name="human"
-                color={color}
-                size={size}
-              />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="HomeStack"
+            component={HomeStack}
+            options={{
+              tabBarLabel: 'Home',
+              tabBarIcon: ({color, size}) => (
+                <MaterialCommunityIcons 
+                  name="home"
+                  color={color}
+                  size={size}
+                />
+              ),
+            }}  
+          />
+          <Tab.Screen
+            name="UserStack"
+            component={UserStack}
+            options={{
+              tabBarLabel: 'Profile',
+              tabBarIcon: ({color, size}) => (
+                <MaterialCommunityIcons 
+                  name="human"
+                  color={color}
+                  size={size}
+                />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
