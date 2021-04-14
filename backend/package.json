@@ -13,5 +13,8 @@
     "start": "node ./src/index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "morgan": "^1.10.0"
+  }
 }
