@@ -13,6 +13,7 @@ from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {connect} from 'react-redux';
 import {joinRoom} from '../src/store/actions/videoActions';
+import {myStream, remoteStream as reducerRemoteStream} from '../src/store/reducer/videoReducer';
 
 import {
     RTCPeerConnection,
@@ -60,7 +61,7 @@ const CallScreen = ({ navigation }) => {
         setStartButton(true)
         setStopButton(false)
         if (!remoteStream) {
-        setCallButton(false)
+            setCallButton(false)
         }
 
         console.log("start local video")
@@ -80,134 +81,24 @@ const CallScreen = ({ navigation }) => {
         // disable call button
         setHangupButton(false)
         setCallButton(true)
+        
+        await joinRoom(localStream)
+        // this.props.joinRoom(localStream)
 
-        // print local audio and video stream devices
-        const audioTracks = localStream.getAudioTracks();
-        const videoTracks = localStream.getVideoTracks();
-        if (audioTracks.length > 0) {
-            console.log('using audio device: ' + audioTracks[0].label)
-        }
-        if (videoTracks.length > 0) {
-            console.log('using video device: ' + videoTracks[0].label)
-        }
-
-        // start remote video and connect
-        // on ice candidate
-        pc1.onicecandidate = async function (event) {
-            try {
-                await (pc2.addIceCandidate(event.candidate));
-                console.log("pc1 onIceCandidate success");
-            } catch (e) {
-                console.log("pc1 onIceCandidate error: ", e.toString());
-            }
-            console.log(`pc1 ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
-        };
-        pc2.onicecandidate = async function (event) {
-            try {
-                await (pc1.addIceCandidate(event.candidate));
-                console.log("pc2 onIceCandidate success");
-            } catch (e) {
-                console.log("pc2 onIceCandidate error: ", e.toString());
-            }
-            console.log(`pc2 ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
-        };
-
-        // on ice candidate change 
-        pc1.oniceconnectionstatechange = function(event) {
-            console.log(`pc1 ICE state: ${pc1.iceConnectionState}`);
-            console.log('ICE state change event: ', event);
-        }
-        pc2.oniceconnectionstatechange = function(event) {
-            console.log(`pc2 ICE state: ${pc2.iceConnectionState}`);
-            console.log('ICE state change event: ', event);
-        }
-
-        // add remote stream to second (remote) peer connection
-        // setRemoteStream(localStream);
-        if (!remoteStream) {
-            let rs;
-            try {
-                rs = await mediaDevices.getUserMedia({audio:true, video:{ facingMode: "environment" }})
-                setRemoteStream(rs)
-            } catch (e) {
-                console.error(e)
-            }
-        }
-        // pc2.ontrack = function(event) {
-        //   if (remoteStream !== event.streams[0]) {
-        //       setRemoteStream(event.streams[0])
-        //       console.log('pc2 received remote stream');
-        //   } else {
-        //     console.log('pc2 did not receive a remote stream');
-        //   }
-        // }
-
-        // add local stream tracks to first (local) peer connection 
-        // localStream.getTracks().forEach(track => pc1.addTrack(track, localStream));
-        // console.log("add local stream to pc1")
-
-        // create offer (connection) between peer connections
-        try {
-            console.log('pc1 createOffer start');
-            const offer = await pc1.createOffer(offerOptions);
-            await onCreateOfferSuccess(offer);
-        } catch (e) {
-            // onCreateSessionDescriptionError(e);
-            console.error(e);
+        console.log("remote stream")
+        console.log(reducerRemoteStream)
+        console.log("mystream")
+        console.log(myStream)
+        
+        // set remote stream
+        if (!remoteStream && reducerRemoteStream) {
+            // set remote stream to reduce remote stream
+            setRemoteStream(reducerRemoteStream) 
+            console.log("remote stream: ", reducerRemoteStream)
         }
     }
 
-    const onCreateOfferSuccess = async (desc) => {
-        console.log(`Offer from pc1\n${desc.sdp}`);
-        console.log('pc1 setLocalDescription start');
-        try {
-            await pc1.setLocalDescription(desc);
-            console.log("success on create offer (pc1)")
-        } catch (e) {
-            console.log("error on create offer (pc1)")
-            console.log(e.message)
-        }
-    
-        console.log('pc2 setRemoteDescription start');
-        try {
-            await pc2.setRemoteDescription(desc);
-            console.log("success on create offer (pc2)")
-        } catch (e) {
-            console.log("error on create offer (pc2)")
-            console.error(e.message)
-        }
-    
-        console.log('pc2 createAnswer start');
-        // Since the 'remote' side has no media stream we need
-        // to pass in the right constraints in order for it to
-        // accept the incoming offer of audio and video.
-        try {
-            const answer = await pc2.createAnswer();
-            await onCreateAnswerSuccess(answer);
-        } catch (e) {
-            console.error(e.message)
-        }
-    }
 
-    const onCreateAnswerSuccess = async (desc) => {
-        console.log(`ANSWER FROM pc2:\n${desc.sdp}`);
-        console.log('pc2 setLocalDescription start');
-        try {
-            await pc2.setLocalDescription(desc);
-            console.log("on create answer success")
-        } catch (e) {
-            console.log(e.message);
-            console.log("on create answer fail")
-        }
-        console.log('pc1 setRemoteDescription start');
-        try {
-            await pc1.setRemoteDescription(desc);
-            console.log("on create answer success")
-        } catch (e) {
-            console.log(e.message)
-            console.log("on create answer fail")
-        }
-    }
 
     const stopRemoteVideo = async () => {
         // enable call button and start button

@@ -71,7 +71,12 @@ app.use("/mypeer", peerServer)
 // TODO MAYBE: update function on connection & add more (disconnected, etc.)
 io.on('connection', function(socket){
   console.log('socket connected')
+  socket.on('join-room', ({roomID, userID}) => {
+    socket.join(roomID)
+    // broadcast to room (and other users) that new user joined
+    socket.to(roomID).broadcast.emit('user-connected', userID)
+  })
 }) 
 
-const port = process.env.port || 5000;
+const port = process.env.port || 5001;
 server.listen(port, () => console.log(`Server is running on port: ${port}`))
