@@ -12,8 +12,10 @@ import {
 
 const App = () => {
   return (
-    <SafeAreaView style={backgroundStyle}>
-
+    <SafeAreaView>
+      <Text>
+        uwu
+      </Text>
     </SafeAreaView>
   );
 };
