@@ -22,7 +22,7 @@ const peer = new Peer(undefined, {
 peer.on('connection', (client) => console.log('connected to peer server'))
 peer.on('error', console.log);
 
-export const joinRoom = (stream) => async (dispatch) => {
+export const joinRoom = async (stream, dispatch) => {
     // TODO: create unique room id 
     const roomID = 'uniqueRoomID';
     console.log(roomID)

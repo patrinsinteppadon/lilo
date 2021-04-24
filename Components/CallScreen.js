@@ -12,7 +12,7 @@ from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { mediaDevices, RTCView } from 'react-native-webrtc';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { joinRoom } from '../store/actions/videoActions';
 
 const username = "Bill";
@@ -29,7 +29,8 @@ const CallScreen = ({ navigation }) => {
     const [localStream, setLocalStream] = useState(null);
     // const [remoteStream, setRemoteStream] = useState(null);
 
-    const video = useSelector(state => state.video)
+    const video = useSelector(state => state.video);
+    const dispatch = useDispatch();
     const { myStream, remoteStream, streams } = video;
 
     const startLocalVideo = async () => {
@@ -59,14 +60,13 @@ const CallScreen = ({ navigation }) => {
         setHangupButton(false)
         setCallButton(true)
         
+        // TODO: change this structure 
         if (localStream) {
             try {
-                joinRoom(localStream)
-                console.log(localStream)
+                joinRoom(localStream, dispatch)
             } catch (e) {
                 console.log(e)
             }
-            // joinRoom(localStream)
         } else {
             console.log('localStream is null')
         }
