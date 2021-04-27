@@ -10,10 +10,18 @@ import {
 import MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { mediaDevices, RTCView } from 'react-native-webrtc';
+import {   
+    RTCPeerConnection,
+    RTCIceCandidate,
+    RTCSessionDescription,
+    RTCView,
+    MediaStream,
+    MediaStreamTrack,
+    mediaDevices,
+    registerGlobals } from 'react-native-webrtc';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { joinRoom } from '../store/actions/videoActions';
+import { joinRoom, closeRoom } from '../store/actions/videoActions';
 
 const username = "Bill";
 
@@ -26,6 +34,8 @@ const CallScreen = ({ navigation }) => {
     const [callButton, setCallButton] = useState(false);
     const [hangupButton, setHangupButton] = useState(true);
     const [stopButton, setStopButton] = useState(true);
+    const [muteButton, setMuteButton] = useState(true);
+    const [unmuteButton, setUnmuteButton] = useState(true);
     const [localStream, setLocalStream] = useState(null);
     // const [remoteStream, setRemoteStream] = useState(null);
 
@@ -38,6 +48,7 @@ const CallScreen = ({ navigation }) => {
         // disable start button
         setStartButton(true)
         setStopButton(false)
+        setMuteButton(false)
         if (!remoteStream) {
         setCallButton(false)
         }
@@ -81,10 +92,12 @@ const CallScreen = ({ navigation }) => {
         setHangupButton(true)
         // setStopButton(true)
 
-        if (remoteStream) {
-            remoteStream.release();
-            setRemoteStream(null);
-        }
+        closeRoom();
+
+        // if (remoteStream) {
+        //     remoteStream.release();
+        //     setRemoteStream(null);
+        // }
     }
 
     const stopLocalVideo = async () => {
@@ -93,11 +106,31 @@ const CallScreen = ({ navigation }) => {
         setStartButton(false)
         setStopButton(true)
 
-        if (localStream) {
-            localStream.release();
-            setLocalStream(null);
-        }
+        // remove video from local stream
+        var localVideoTrack = localStream.getVideoTracks()[0];
+        setLocalStream(localVideoTrack.enabled = false);
     };
+
+    const muteLocalAudio = async () => {
+        setMuteButton(true)
+        setUnmuteButton(false)
+
+        // remove audio from local stream
+        console.log(localStream.getAudioTracks())
+        var localAudioTrack = localStream.getAudioTracks()[0];
+        setLocalStream(localAudioTrack.enabled = false);
+        console.log(localStream.getAudioTracks())
+        console.log(localStream)
+    }
+
+    const unmuteLocalAudio = async () => {
+        setUnmuteButton(true)
+        setMuteButton(false)
+
+        // add audio to local stream
+        console.log("in unmute")
+        console.log("localStream", localStream)
+    }
 
     return (
         <>
@@ -119,6 +152,8 @@ const CallScreen = ({ navigation }) => {
                     <Button title="call" disabled={callButton} onPress={connectRemoteVideo} />
                     <Button title="hang up" disabled={hangupButton} onPress={stopRemoteVideo} />
                     <Button title="stop video" disabled={stopButton} onPress={stopLocalVideo} />
+                    <Button title="mute audio" disabled={muteButton} onPress={muteLocalAudio} />
+                    <Button title="unmute audio" disabled={unmuteButton} onPress={unmuteLocalAudio} />
                 </SafeAreaView>
             </SafeAreaView>
         </>
@@ -215,4 +250,4 @@ export default CallScreen;
 //
 // const mapStateToProps = ({video}) => ({video});
 //
-// export default connect(mapStateToProps, { joinRoom })(CallScreen);
+// export default connect(mapStateToProps, { joinRoom })(CallScreen)

@@ -56,6 +56,14 @@ export const joinRoom = async (stream, dispatch) => {
     })
 };
 
+export const closeRoom = async (dispatch) => {
+    console.log("in close room");
+        // // end local video 
+        // peer.on('close', (call) => {
+        //     call.close();
+        // })
+}
+
 function connectToNewUser(userID, stream, dispatch) {
     const call = peer.call(userID, stream);
     call.on('stream', (remoteVideoStream) => {
