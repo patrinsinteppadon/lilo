@@ -22,9 +22,10 @@ import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import HomeScreen from './Components/HomeScreen.js'
+import HomeScreen from './Components/HomeScreen.js';
 import UserScreen from './Components/UserScreen.js';
 import CallScreen from './Components/CallScreen';
+import WaitingRoom from './Components/WaitingRoom';
 import DetailsScreen from './pages/DetailsScreen'; // take out in mvp
 import ProfileScreen from './pages/ProfileScreen';
 import SettingsScreen from './pages/SettingsScreen';
@@ -57,6 +58,10 @@ function HomeStack() {
         name="Details"
         component={DetailsScreen}
         options={{ title: 'Details Page'}}/>
+      <Stack.Screen
+        name="Waiting"
+        component={WaitingRoom}
+        options={{title: 'Calling...'}}/>
       <Stack.Screen 
         name="Call"
         component={CallScreen}

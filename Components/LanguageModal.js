@@ -11,6 +11,7 @@ import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Call from './CallScreen.js';
+import WaitingRoom from './WaitingRoom.js';
 
 /**
  * TODO: all the things that still need to get done for this component
@@ -79,6 +80,7 @@ const LanguageModal = ({ navigation, modalVisible, setModalVisible }) => {
               color="steelblue"
               onPress={() => {
                 navigation.navigate('Call');
+                // navigation.navigate('WaitingRoom')
                 setModalVisible(!modalVisible);
                 }
               }

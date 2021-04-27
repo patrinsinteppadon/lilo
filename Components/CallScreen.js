@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LanguageModal from './LanguageModal.js';
 import { 
     StyleSheet, 
@@ -157,6 +157,18 @@ const CallScreen = ({ navigation }) => {
                 </SafeAreaView>
             </SafeAreaView>
         </>
+        // <SafeAreaView style={{ flex: 1 }}>
+        //     <View style={styles.textContainer}>
+        //         <Text style={styles.textContainer, styles.blueText}>Please wait, calling a translator...</Text>
+        //         <Text>Estimated wait:</Text>
+        //         <Text style={styles.bolded}>2 minutes</Text>
+        //     </View>
+        //     <View>
+        //         {localStream ? (
+        //             <RTCView streamURL={localStream.toURL()} />
+        //         ) : null}
+        //     </View>
+        // </SafeAreaView>
     );
 }
 
@@ -177,77 +189,17 @@ const styles = StyleSheet.create({
     left: 0, 
     right: 0.
   },
+  textContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  blueText: {
+    color: '#4A69D9',
+    fontSize: 32,
+  },
+  bolded: {
+    fontWeight: 'bold',
+  }
 });
 
 export default CallScreen;
-
-
-// const height = Dimensions.get('window').height;
-
-// class App extends React.Component {
-//   constructor(props) {
-//     super(props)
-//   }
-
-//   componentDidMount(){
-//     let isFront = true;
-//     mediaDevices.enumerateDevices().then(sourceInfos => {
-//       let videoSourceId;
-//       for (let i = 0; i < sourceInfos.length; i++) {
-//         const sourceInfo = sourceInfos[i];
-//         if(sourceInfo.kind == "videoinput" && sourceInfo.facing == (isFront ? "front" : "environment")) {
-//           videoSourceId = sourceInfo.deviceId;
-//         }
-//       }
-//       mediaDevices.getUserMedia({
-//         audio: true,
-//         video: {
-//           width: 640,
-//           height: 480,
-//           frameRate: 30,
-//           facingMode: (isFront ? "user" : "environment"),
-//           deviceId: videoSourceId
-//         }
-//       })
-//       .then(stream => {
-//         this.props.joinRoom(stream);
-//       })
-//       .catch(error => {
-//         console.log(error)
-//       });
-//     });
-//   }
-
-//   render() {
-//     const { myStream, remoteStream, streams } = this.props.video;
-
-//     console.log("STREAMS", streams)
-//     // console.log("MY STREAM", myStream)
-//     // console.log("REMOTE STEAM", remoteStream)
-    
-//     return (
-//       <View style={{flex: 1, justifyContent: 'flex-start', padding: 1}}>
-//         <View 
-//           style={{flex: 1, justifyContent: 'center', height: height * 0.5, borderColor: 'pink', borderWidth: 4}}>
-//           {this.props.video.myStream ? (
-//             <RTCView streamURL = {this.props.video.myStream.toURL()} 
-//             style={{height: height * 0.4}}
-//             />
-//           ): null}
-//         </View>
-//         <View
-//           style={{flex: 1, justifyContent: 'center', height: height * 0.5, borderColor: 'green', borderWidth: 4}}>
-//           {remoteStream ? (
-//             <RTCView streamURL = {this.props.video.remoteStream.toURL()}
-//             style={{height: height * 0.4}}
-//             />
-//           ): null}
-//         </View>
-//       </View>
-//     )
-//   }
-// }
-//
-// const mapStateToProps = ({video}) => ({video});
-//
-// export default connect(mapStateToProps, { joinRoom })(CallScreen)
