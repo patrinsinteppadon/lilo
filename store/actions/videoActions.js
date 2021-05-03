@@ -56,12 +56,30 @@ export const joinRoom = async (stream, dispatch) => {
     })
 };
 
+// delete this later
 export const closeRoom = async (dispatch) => {
     console.log("in close room");
         // // end local video 
         // peer.on('close', (call) => {
         //     call.close();
         // })
+}
+
+export const leaveRoom = () => async (dispatch) => {
+    console.log('inside leave Room')
+    // peer.on('call', (call) => {
+    //     // call.close()
+    //     // call.on('close', () => {
+    //     //     dispatch({type: ADD_REMOTE_STREAM, payload: null});
+    //     //     dispatch({type: MY_STREAM, payload: null});
+    //     // })
+    //     console.log('inside call')
+    // })
+ 
+    peer.disconnect()
+    peer.destroy()
+    // dispatch({type: ADD_REMOTE_STREAM, payload: null});
+        //     dispatch({type: MY_STREAM, payload: null});
 }
 
 function connectToNewUser(userID, stream, dispatch) {
