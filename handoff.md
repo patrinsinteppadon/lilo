@@ -6,12 +6,12 @@ A video call translation service that allows limited English proficient (LEP) us
 ## Summary of research 
 Performed secondary research including market analysis with online sources. Research was conducted with primarily two main user groups in mind: LEP users and bilingual/multilingual users.
 
-* We conducted the following with LEP users and bilingual/multilingual users:
-  * Surveys
-  * Interviews
-  * Surveys and interviews  affirm and expand our initial findings.
-    * LEP users are willing to receive translation help. There is a need for assistance with everyday tasks. Language barriers and limited experience with technology create stress
-    * Bilingual/multilingual users include a wide range of translation experience and willingness to help
+We conducted the following with LEP users and bilingual/multilingual users:
+* Surveys
+* Interviews
+* Surveys and interviews  affirm and expand our initial findings.
+  * LEP users are willing to receive translation help. There is a need for assistance with everyday tasks. Language barriers and limited experience with technology create stress
+  * Bilingual/multilingual users include a wide range of translation experience and willingness to help
       
 ## Summary of design 
 User research was synthesized to create and design:
