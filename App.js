@@ -25,7 +25,6 @@ from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeScreen from './Components/HomeScreen.js';
 import UserScreen from './Components/UserScreen.js';
 import CallScreen from './Components/CallScreen';
-import WaitingRoom from './Components/WaitingRoom';
 import DetailsScreen from './pages/DetailsScreen'; // take out in mvp
 import ProfileScreen from './pages/ProfileScreen';
 import SettingsScreen from './pages/SettingsScreen';
@@ -46,22 +45,19 @@ function HomeStack() {
       screenOptions={{
         headerStyle: { backgroundColor: '#4A69D9'},
         headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: 'bold' }
+        headerTitleStyle: { fontWeight: 'bold' },
+        headerShown: false,
       }}>
       <Stack.Screen 
         name="Home"
         component={HomeScreen}
-        options={{ title: 'Home Page'}} 
+        options={{ title: 'Home page'}} 
         username="Bill"
       /> 
       <Stack.Screen 
         name="Details"
         component={DetailsScreen}
         options={{ title: 'Details Page'}}/>
-      <Stack.Screen
-        name="Waiting"
-        component={WaitingRoom}
-        options={{title: 'Calling...'}}/>
       <Stack.Screen 
         name="Call"
         component={CallScreen}
@@ -81,7 +77,7 @@ function UserStack() {
       screenOptions={{
         headerStyle: { backgroundColor: '#4A69D9' },
         headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: 'bold' }
+        headerTitleStyle: { fontWeight: 'bold' },
       }}>
       <Stack.Screen
         name="User"
@@ -100,6 +96,7 @@ export default function App() {
             name="HomeStack"
             component={HomeStack}
             options={{
+              tabBarVisible: false,
               tabBarLabel: 'Home',
               tabBarIcon: ({color, size}) => (
                 <MaterialCommunityIcons 
@@ -114,6 +111,7 @@ export default function App() {
             name="UserStack"
             component={UserStack}
             options={{
+              tabBarVisible: false,
               tabBarLabel: 'Profile',
               tabBarIcon: ({color, size}) => (
                 <MaterialCommunityIcons 

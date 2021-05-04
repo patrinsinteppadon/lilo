@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     StyleSheet, 
     View, 
@@ -6,12 +6,18 @@ import {
     Pressable, 
     Modal, 
     Button, // temporary placeholder for dropdowns
+    TouchableOpacity,
 } from 'react-native';
+
+// icons
 import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// drop down
+import DropDownPicker from 'react-native-dropdown-picker';
+
 import Call from './CallScreen.js';
-import WaitingRoom from './WaitingRoom.js';
 
 /**
  * TODO: all the things that still need to get done for this component
@@ -27,6 +33,15 @@ import WaitingRoom from './WaitingRoom.js';
  * https://reactnative.dev/docs/modal
  */
 const LanguageModal = ({ navigation, modalVisible, setModalVisible }) => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'English', value: 'english'},
+    {label: 'Spanish', value: 'spanish'},
+    {label: 'Mandarin Chinese', value: 'mandarin'},
+    {label: 'Cantonese Chinese', value: 'cantonese'},
+  ]);
+
   return (
     <View>
       <Modal
@@ -47,44 +62,34 @@ const LanguageModal = ({ navigation, modalVisible, setModalVisible }) => {
               <View>
                 <Text style={styles.modalHeaderText}>I speak:</Text>
                 <Text style={styles.modalText}>You will talk in this language with your translator</Text>
-                {/* replace this button w/ dropdown */}
-                <Button 
-                  style={{ marginBottom: 50 }}
-                  title="" 
-                  color="gray" 
-                />
+                
+                {/* replace with drop down */}
+                <TouchableOpacity style={styles.selectLanguage}>
+                  <Text style={styles.selectLanguageText}>Select language</Text>
+                </TouchableOpacity>
 
                 <Text style={styles.modalHeaderText}>I need help with:</Text>
                 <Text style={styles.modalText}>You will receive translation for this language</Text>
                 {/* replace this button w/ dropdown */}
-                <Button 
+                {/* <Button 
                   style={{ marginBottom: 50 }}
                   title="" 
                   color="gray" 
-                />
+                /> */}
+                <TouchableOpacity style={styles.selectLanguage}>
+                  <Text style={styles.selectLanguageText}>English</Text>
+                </TouchableOpacity>
               </View>
             </View>
-            
-            {/* <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => {
-                    // navigation.navigate('Call');
-                    // setModalVisible(!modalVisible);
-                  }
-                }
-            >
-              <Text style={styles.buttonText}>Request Help Now</Text>
-            </Pressable> */}
-            <Button 
-              title="Request Help Now" 
-              color="steelblue"
-              onPress={() => {
+        
+            <View style={{alignItems: 'center'}}>
+              <TouchableOpacity style={styles.requestContainer} onPress={() => {
                 navigation.navigate('Call');
-                // navigation.navigate('WaitingRoom')
                 setModalVisible(!modalVisible);
-                }
-              }
-            />
+              }}>
+                <Text style={styles.requestText}>Request now</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -119,6 +124,16 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
       },
+      selectLanguage: {
+        backgroundColor: '#F4F5FA',
+        borderRadius: 5,
+        height: 50,
+        paddingLeft: 10,
+        justifyContent: 'center',
+      },
+      selectLanguageText: {
+        color: '#666666',
+      },
       button: {
         backgroundColor: '#4A69D9',
         width: '100%',
@@ -131,6 +146,19 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center"
       },
+      requestContainer: {
+        backgroundColor: '#4A69D9',
+        borderRadius: 50,
+        height: 50,
+        width: 300,
+        justifyContent: 'center',
+      },
+      requestText: {
+        color: '#FFFFFF',
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+      },
       modalText: {
         marginBottom: 15,
         color: '#666666',
@@ -138,7 +166,9 @@ const styles = StyleSheet.create({
       modalHeaderText: {
         color: '#394248',
         fontSize: 24,
+        fontWeight: 'bold',
         marginBottom: 15,
+        marginTop: 30,
       }
   });
 
