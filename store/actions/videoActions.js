@@ -3,7 +3,7 @@ import Peer from 'react-native-peerjs';
 import { ADD_STREAM, MY_STREAM, ADD_REMOTE_STREAM} from './types';
 
 // API URI 
-export const API_URI = `http://10.0.0.79:5000`;
+export const API_URI = `http://10.0.0.79:5001`;
 
 // socket config 
 export const socket = IO(`${API_URI}`, {
@@ -16,7 +16,7 @@ socket.on('error', console.log);
 const peer = new Peer(undefined, {
     host: '10.0.0.79',
     secure: false,
-    port: 5000,
+    port: 5001,
     path: '/mypeer'
 })
 peer.on('connection', (client) => console.log('connected to peer server'))
@@ -56,30 +56,12 @@ export const joinRoom = async (stream, dispatch) => {
     })
 };
 
-// delete this later
 export const closeRoom = async (dispatch) => {
     console.log("in close room");
-        // // end local video 
-        // peer.on('close', (call) => {
-        //     call.close();
-        // })
-}
-
-export const leaveRoom = () => async (dispatch) => {
-    console.log('inside leave Room')
-    // peer.on('call', (call) => {
-    //     // call.close()
-    //     // call.on('close', () => {
-    //     //     dispatch({type: ADD_REMOTE_STREAM, payload: null});
-    //     //     dispatch({type: MY_STREAM, payload: null});
-    //     // })
-    //     console.log('inside call')
-    // })
- 
     peer.disconnect()
     peer.destroy()
-    // dispatch({type: ADD_REMOTE_STREAM, payload: null});
-        //     dispatch({type: MY_STREAM, payload: null});
+    dispatch({type: MY_STREAM, payload: null})
+    dispatch({type: ADD_REMOTE_STREAM, payload: null})
 }
 
 function connectToNewUser(userID, stream, dispatch) {

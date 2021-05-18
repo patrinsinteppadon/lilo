@@ -9,18 +9,7 @@ import {
     Image
 } from 'react-native';
 
-import MaterialCommunityIcons
-from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import {   
-    RTCPeerConnection,
-    RTCIceCandidate,
-    RTCSessionDescription,
-    RTCView,
-    MediaStream,
-    MediaStreamTrack,
-    mediaDevices,
-    registerGlobals } from 'react-native-webrtc';
+import {   RTCView, mediaDevices } from 'react-native-webrtc';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { joinRoom, closeRoom } from '../store/actions/videoActions';
@@ -38,6 +27,7 @@ const CallScreen = ({ navigation }) => {
     const [playAudio, setAudio] = useState(true);
     const [playVideo, setVideo] = useState(true);
     const [endCall, setEndCall] = useState(false);
+    const [tempRemote, setTempRemote] = useState(null);
 
     const video = useSelector(state => state.video);
     const dispatch = useDispatch();
@@ -45,7 +35,16 @@ const CallScreen = ({ navigation }) => {
 
     useEffect(() => {
         startCall();
+        const timer = setTimeout(() => {
+            getRemoteVideo();
+        }, 10000);
+        return () => clearTimeout(timer);
     }, [])
+
+    const getRemoteVideo = async () => {
+        let s = await mediaDevices.getUserMedia({audio:true, video:{ facingMode: "environment" }})
+        setTempRemote(s)
+    }
 
     const startCall = async () => {
         console.log("start local video")
@@ -54,7 +53,7 @@ const CallScreen = ({ navigation }) => {
             for (let i = 0; i < sourceInfos.length; i++) {
                 const sourceInfo = sourceInfos[i];
                 if(sourceInfo.kind == "videoinput" && sourceInfo.facing == (isFront ? "front" : "environment")) {
-                videoSourceId = sourceInfo.deviceId;
+                    videoSourceId = sourceInfo.deviceId;
                 }
             }
             mediaDevices.getUserMedia({
@@ -77,6 +76,16 @@ const CallScreen = ({ navigation }) => {
         });
     };
 
+    const confirmedEndCall = async () => {
+        // close connection 
+        // go back to home page
+        // setVideo(false);
+        // setAudio(false);
+        // startCall();
+        navigation.navigate('HomeStack', { screen: 'Feedback1' });
+        closeRoom(dispatch);
+    }
+
     const playVideoSwitch = async () => {
         setVideo(playVideo == true ? false : true);
         startCall();
@@ -92,10 +101,18 @@ const CallScreen = ({ navigation }) => {
         startCall();
     }
 
+    const endInitialCall = () => {
+        setEndCall(true);
+    }
+
+    const cancelEndCall = () => {
+        setEndCall(false);
+    }
+
     // CALL CONTROLS ------->
     // color for call control text 
     let controlTextColor = '#394248';
-    if (remoteStream != null) {
+    if (tempRemote != null) {
       controlTextColor = 'white';
     }
 
@@ -121,15 +138,26 @@ const CallScreen = ({ navigation }) => {
     let endCallConf;
     if (endCall) {
       endCallConf = 
-        <View>
+        <View style={styles.confirmEndCall}>
           {/* text confirmation */}
-          <Text>Confirm end call?</Text>
-          {/* cancel button */}
-          <TouchableOpacity></TouchableOpacity>
-          <Text>Cancel</Text>
-          {/* end call button */}
-          <TouchableOpacity></TouchableOpacity>
-          <Text>End</Text>
+          <Text style={styles.confirmEndCallText}>Confirm end call?</Text>
+
+          <View style={{flexDirection:'row', justifyContent:'space-evenly', width:250}}>
+            <View style={{alignItems:'center'}}>
+                {/* cancel button */}
+                <TouchableOpacity onPress={cancelEndCall} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#DEE0EA', width:50, height:50}}>
+                    <Image source={require('./../assets/up_left.png')} style={styles.iconLarge} />
+                </TouchableOpacity>
+                <Text style={{marginTop:10}}>Cancel</Text>
+            </View>
+            <View style={{alignItems:'center'}}>
+                {/* end call button */}
+                <TouchableOpacity onPress={confirmedEndCall} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#FF7575', width:50, height:50}}>
+                    <Image source={require('./../assets/end.png')} style={styles.icon} />
+                </TouchableOpacity>
+                <Text style={{marginTop:10}}>End</Text>
+            </View>
+          </View>
         </View>
     } else {
       endCallConf = null;
@@ -137,8 +165,14 @@ const CallScreen = ({ navigation }) => {
 
     return (
         <View style={{backgroundColor:'white', height: height}}>
-            {!remoteStream ? (
+            {!tempRemote ? (
                 <View style={{justifyContent:'center'}}>
+                    {/* close icon */}
+                    {/* TODO: add onPress -> leave page */}
+                    <TouchableOpacity>
+                        <Image source={require('./../assets/close_icon.png')} style={{alignSelf:'flex-end', resizeMode:'contain', height:35, marginTop:20}} />
+                    </TouchableOpacity>
+
                     {/* waiting room text */}
                     <View style={{alignItems:'center', fontSize:14}}>
                         <Text style={{color:'#4A69D9', fontSize:32, fontWeight: 'bold', textAlign:'center', marginTop:20, marginBottom:20}}>Please wait, calling a translator...</Text>
@@ -151,14 +185,14 @@ const CallScreen = ({ navigation }) => {
                     {/* video preview */}
                     {myStream ? (
                     <View>
-                        <View style={{backgroundColor: 'black', borderRadius: 20, margin:20, height: height*0.5,overflow:'hidden'}}>
+                        <View style={{backgroundColor: 'black', borderRadius:20, margin:20, marginTop:50, height:height*0.4, width:250, overflow:'hidden', alignSelf:'center'}}>
                         <RTCView streamURL = {myStream.toURL()}
                         objectFit='cover'
                         style={{flex: 1, height: height * 0.4}} />
                         </View>
 
                         {/* video preview controls */}
-                        <View style={{flexDirection:'row', justifyContent:'space-evenly', marginTop:20}}>
+                        <View style={{flexDirection:'row', justifyContent:'space-evenly', marginTop:345}}>
                             {/* turn video on/off */}
                             <View style={{alignItems:'center'}}>
                                 <TouchableOpacity onPress={playVideoSwitch} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#4A69D9', width:50, height:50}}>
@@ -188,24 +222,28 @@ const CallScreen = ({ navigation }) => {
                 </View>
             ) : (
                 <View>
-                    {/* display local video stream */}
-                    <RTCView 
+                    {/* display remote video stream */}
+                    {tempRemote ? (<RTCView 
                     objectFit='cover' 
                     style={{backgroundColor:'black', height:height }} 
-                    streamURL={myStream.toURL()} />
+                    streamURL={tempRemote.toURL()} />) : null}
+                    
+
+                    {endCallConf}
                 
-                    {/* display remote video stream */}
-                    <RTCView 
+                    {/* display local video stream */}
+                    {myStream ? (<RTCView 
                     objectFit='cover' 
-                    style={{position:'absolute', backgroundColor:'black', height: height*0.2, width:100, bottom:0, right:20, marginBottom:200}} 
-                    streamURL={myStream.toURL()} />
+                    style={{position:'absolute', backgroundColor:'black', height:100, width:height*0.2, bottom:0, right:20, marginBottom:155}} 
+                    streamURL={myStream.toURL()} />) : null}
+                    
                 
-                    {/* viceo call controls */}
-                    <View style={{position:'absolute', bottom:0, width:width, height: 175, flexDirection:'row', justifyContent:'space-evenly', backgroundColor:'#394248', paddingTop:10, paddingBottom:10, borderTopLeftRadius:20, borderTopRightRadius:20}}>
+                    {/* video call controls */}
+                    <View style={{position:'absolute', bottom:0, width:width, height: 135, flexDirection:'row', justifyContent:'space-evenly', backgroundColor:'rgba(0, 0, 0, 1)', paddingTop:10, paddingBottom:10, borderTopLeftRadius:0, borderTopRightRadius:0}}>
                         {/* turn video on/off */}
                         <View style={{alignItems:'center'}}>
-                            <TouchableOpacity onPress={playVideoSwitch} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#DFE3F4', width:50, height:50}}>
-                                <Text>B</Text>
+                            <TouchableOpacity onPress={playVideoSwitch} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#AAAAAA', width:50, height:50}}>
+                                <Image source={require('./../assets/camera.png')} style={styles.icon} />
                             </TouchableOpacity>
                             {/* <Text style={{color:'white', paddingTop:5}}>Camera</Text> */}
                             {videoControlText}
@@ -213,8 +251,8 @@ const CallScreen = ({ navigation }) => {
                 
                         {/* turn audio on/off */}
                         <View style={{alignItems:'center'}}>
-                            <TouchableOpacity onPress={playAudioSwitch} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#DFE3F4', width:50, height:50}}>
-                              <Text>B</Text>
+                            <TouchableOpacity onPress={playAudioSwitch} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#AAAAAA', width:50, height:50}}>
+                                <Image source={require('./../assets/audio.png')} style={styles.iconLarge} />
                             </TouchableOpacity>
                             {/* <Text style={{color:'white', paddingTop:5}}>Mute</Text> */}
                             {audioControlText}
@@ -222,18 +260,18 @@ const CallScreen = ({ navigation }) => {
                 
                         {/* switch video camera view */}
                         <View style={{alignItems:'center'}}>
-                            <TouchableOpacity onPress={flipCamera} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#DFE3F4', width:50, height:50}}>
-                                <Text>B</Text>
+                            <TouchableOpacity onPress={flipCamera} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#AAAAAA', width:50, height:50}}>
+                                <Image source={require('./../assets/switch.png')} style={styles.iconLarge} />
                             </TouchableOpacity>
-                            <Text style={{color:'white', paddingTop:5}}>Switch camera</Text>
+                            <Text style={{color:'white', paddingTop:5, width:50, textAlign:'center'}}>Switch Camera</Text>
                         </View>
                 
                         {/* end call */}
                         <View style={{alignItems:'center'}}>
-                            <TouchableOpacity onPress={endCall} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#FF7575', width:50, height:50}}>
-                                <Text>B</Text>
+                            <TouchableOpacity onPress={confirmedEndCall} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#FF7575', width:50, height:50}}>
+                                <Image source={require('./../assets/end.png')} style={styles.icon} />
                             </TouchableOpacity>
-                            <Text style={{color:'white', paddingTop:5}}>End call</Text>
+                            <Text style={{color:'white', paddingTop:5, width:40, textAlign:'center'}}>End Call</Text>
                         </View>
                     </View>
                 </View>
@@ -279,7 +317,24 @@ const styles = StyleSheet.create({
     flex: 1,
     aspectRatio: 0.32,
     resizeMode:'contain'
-  }
+  },
+  confirmEndCall: {
+    position:'absolute', 
+    backgroundColor:'#FFF',
+    borderRadius: 20,
+    alignItems: 'center',
+    height: 225,
+    width: 250,
+    top:200, 
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  confirmEndCallText: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    width: 100,
+    marginBottom: 20,
+  },
 });
 
 export default CallScreen;

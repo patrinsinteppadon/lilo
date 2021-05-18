@@ -39,13 +39,13 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View class="main-page-container" style={{ flex: 1, padding: 16, backgroundColor: '#FFFFFF' }}>
-            <ImageBackground source={require('./../assets/wave.png')} style={{position:'absolute', width:width, height:175, resizeMode:'cover', top:0, left:0}}></ImageBackground>
+            <ImageBackground source={require('./../assets/home_wave.png')} style={{position:'absolute', width:width, height:200, resizeMode:'cover', top:-10, left:0}}></ImageBackground>
             <View style={styles.header}>
                 <View>
                     <Text style={styles.welcomeText}>Welcome,</Text>
                     <Text style={styles.welcomeUsername}>{username}!</Text>
                 </View>
-                <MaterialCommunityIcons 
+                {/* <MaterialCommunityIcons 
                     name="account-circle-outline"
                     size={30}
                     onPress={
@@ -53,7 +53,10 @@ const HomeScreen = ({ navigation }) => {
                             'UserStack', { screen: 'User' }
                         )
                     }
-                />
+                /> */}
+                <TouchableOpacity onPress={() => navigation.navigate('UserStack', { screen: 'User' })}>
+                    <Image source={require('./../assets/profile_icon.png')} style={{resizeMode:'contain', height:35}} />
+                </TouchableOpacity>
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.requestContainer} onPress={() => setModalVisible(true)}>
@@ -80,15 +83,12 @@ const HomeScreen = ({ navigation }) => {
                         color="#4A69D9" 
                         onPress={() => alert("Showing tips...")}
                     /> */}
-                <ImageBackground source={require('./../assets/home_lower.png')} style={{position:'absolute', width:width, height:200, resizeMode:'cover', bottom:0}}>
+                <ImageBackground source={require('./../assets/requestor_art.png')} style={{position:'absolute', height: 250, width: width, resizeMode:'contain', bottom:-50}}>
                     <TouchableOpacity onPress={() => alert("Showing request tutorial...")}>
                         <Text style={styles.learnRequest}>Learn how to request a translation</Text>
                     </TouchableOpacity>
                 </ImageBackground>
             </View>
-
-            {/* <Image source={require('./../assets/home_lower.png')} style={{position: 'absolute', width:395, height:200,  bottom:0,right:0, resizeMode:'cover'}}/> */}
-            
 
             {/* language select modal */}
             <LanguageModal

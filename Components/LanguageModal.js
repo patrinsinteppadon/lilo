@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { 
     StyleSheet, 
     View, 
-    Text, 
-    Pressable, 
+    Text,  
     Modal, 
     Button, // temporary placeholder for dropdowns
     TouchableOpacity,
+    Image
 } from 'react-native';
 
 // icons
@@ -53,19 +53,22 @@ const LanguageModal = ({ navigation, modalVisible, setModalVisible }) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <View>
-              <MaterialCommunityIcons 
+              {/* <MaterialCommunityIcons 
                 style={{ alignSelf: 'flex-end' }}
                 name="close"
                 size={30}
                 onPress={() => setModalVisible(!modalVisible)}
-              />
+              /> */}
+              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                <Image source={require('./../assets/close_icon.png')} style={styles.closeIcon} />
+              </TouchableOpacity>
               <View>
                 <Text style={styles.modalHeaderText}>I speak:</Text>
                 <Text style={styles.modalText}>You will talk in this language with your translator</Text>
-                
+
                 {/* replace with drop down */}
                 <TouchableOpacity style={styles.selectLanguage}>
-                  <Text style={styles.selectLanguageText}>Select language</Text>
+                  <Text style={styles.selectLanguageText}>Mandarin Chinese</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.modalHeaderText}>I need help with:</Text>
@@ -124,6 +127,11 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
       },
+      closeIcon: {
+        alignSelf: 'flex-end',
+        resizeMode: 'contain',
+        height: 35,
+      },  
       selectLanguage: {
         backgroundColor: '#F4F5FA',
         borderRadius: 5,
