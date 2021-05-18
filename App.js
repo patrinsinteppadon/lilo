@@ -34,6 +34,7 @@ import WelcomeScreen from './Components/RequestorSignUp/WelcomeScreen';
 import SelectLanguageScreen from './Components/RequestorSignUp/SelectLanguageScreen';
 import InformationScreen from './Components/RequestorSignUp/InformationScreen';
 import GetStartedScreen from './Components/RequestorSignUp/GetStartedScreen';
+import SelectChoice from './Components/RequestorSignUp/SelectChoiceScreen';
 import LoginScreen from './Components/RequestorSignUp/LoginScreen';
 
 // Requestor onboarding 
@@ -68,7 +69,7 @@ const Tab = createBottomTabNavigator();
 function HomeStack() {
   return (
     <Stack.Navigator
-      initialRouteName="Feedback1"
+      initialRouteName="Welcome"
       screenOptions={{
         headerStyle: { backgroundColor: '#4A69D9'},
         headerTintColor: '#fff',
@@ -97,6 +98,11 @@ function HomeStack() {
       /> 
       <Stack.Screen 
         name="SignUp4"
+        component={SelectChoice}
+        options={{ title: 'Select user type page'}} 
+      /> 
+      <Stack.Screen 
+        name="SignUp5"
         component={LoginScreen}
         options={{ title: 'Log In page'}} 
       /> 

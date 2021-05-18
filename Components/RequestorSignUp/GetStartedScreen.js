@@ -20,10 +20,10 @@ const WelcomeScreen = ({navigation}) => {
             <View style={styles.bottom}>
                 <Text style={styles.text}>Get started with Wave</Text>
                 <TouchableOpacity style={styles.signUpBtn}>
-                    <Text style={styles.signUpText} onPress={() => {navigation.navigate('Onboarding1')}}>Sign up</Text>
+                    <Text style={styles.signUpText} onPress={() => {navigation.navigate('SignUp4')}}>Sign up</Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Text style={styles.loginText} onPress={() => {navigation.navigate('SignUp4')}}>Log in</Text>
+                    <Text style={styles.loginText} onPress={() => {navigation.navigate('SignUp5')}}>Log in</Text>
                 </TouchableOpacity>
             </View>
         

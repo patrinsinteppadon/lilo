@@ -35,10 +35,6 @@ const CallScreen = ({ navigation }) => {
 
     useEffect(() => {
         startCall();
-        const timer = setTimeout(() => {
-            getRemoteVideo();
-        }, 10000);
-        return () => clearTimeout(timer);
     }, [])
 
     const getRemoteVideo = async () => {
@@ -77,11 +73,6 @@ const CallScreen = ({ navigation }) => {
     };
 
     const confirmedEndCall = async () => {
-        // close connection 
-        // go back to home page
-        // setVideo(false);
-        // setAudio(false);
-        // startCall();
         navigation.navigate('HomeStack', { screen: 'Feedback1' });
         closeRoom(dispatch);
     }
@@ -165,7 +156,7 @@ const CallScreen = ({ navigation }) => {
 
     return (
         <View style={{backgroundColor:'white', height: height}}>
-            {!tempRemote ? (
+            {!remoteStream ? (
                 <View style={{justifyContent:'center'}}>
                     {/* close icon */}
                     {/* TODO: add onPress -> leave page */}
@@ -185,14 +176,14 @@ const CallScreen = ({ navigation }) => {
                     {/* video preview */}
                     {myStream ? (
                     <View>
-                        <View style={{backgroundColor: 'black', borderRadius:20, margin:20, marginTop:50, height:height*0.4, width:250, overflow:'hidden', alignSelf:'center'}}>
+                        <View style={{backgroundColor: 'black', borderRadius:20, margin:20, height:height*0.4, width:250, overflow:'hidden', alignSelf:'center'}}>
                         <RTCView streamURL = {myStream.toURL()}
                         objectFit='cover'
                         style={{flex: 1, height: height * 0.4}} />
                         </View>
 
                         {/* video preview controls */}
-                        <View style={{flexDirection:'row', justifyContent:'space-evenly', marginTop:345}}>
+                        <View style={{flexDirection:'row', justifyContent:'space-evenly', bottom:-25}}>
                             {/* turn video on/off */}
                             <View style={{alignItems:'center'}}>
                                 <TouchableOpacity onPress={playVideoSwitch} style={{alignItems:'center', justifyContent:'center', borderRadius:50, backgroundColor:'#4A69D9', width:50, height:50}}>

@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     StyleSheet, 
     View, 
     Text, 
     TouchableOpacity,
     Image,
+    Dimensions
 } from 'react-native';
 
+const width = Dimensions.get('window').width
+
 const HowToCallScreen = ({navigation}) => {
+    const [show, setShow] = useState(false);
+
     return (
         <View class="main-page-container" style={styles.contianer}>
-            <TouchableOpacity>
-                {/* TODO: CHANGE ICON TO BACK ARROW */}
-                <Image style={styles.backArrow} source={require('../../assets/close_icon.png')} />
+            <TouchableOpacity style={styles.backArrowContainer} onPress={() => {navigation.navigate('Onboarding4')}}>
+                <Image style={styles.backArrow} source={require('../../assets/back-arrow.png')} />
             </TouchableOpacity> 
-            <TouchableOpacity>
+            <TouchableOpacity style={styles.closeContainer} onPress={() => {setShow(true)}}>
                 <Image style={styles.close} source={require('../../assets/close_icon.png')} />
             </TouchableOpacity>
 
@@ -37,6 +41,19 @@ const HowToCallScreen = ({navigation}) => {
                 </TouchableOpacity>
             </View>
 
+            {show ? 
+            (<View style={styles.exitContainer}>
+                <Text style={{fontSize:18, color:'#394248'}}>Exit tutorial?</Text>
+                <View style={{flexDirection:'row', justifyContent:'space-around', marginTop: 20}}>
+                    <TouchableOpacity style={{width:125, alignItems:'center', padding:10}} onPress={() => {setShow(false)}}>
+                        <Text style={{fontSize:18, color:'#394248'}}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.exitBtn} onPress={() => {navigation.navigate('Home')}}>
+                        <Text style={{fontSize:18, color:'#FFF', fontWeight:'bold'}}>Exit</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>): null}
+
         </View>
     );
 }
@@ -48,19 +65,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF', 
         alignItems:'center'
     },
-    backArrow: {
+    backArrowContainer: {
         position: 'absolute',
+        left: 25, 
+        top: 50
+    },
+    backArrow: {
         resizeMode: 'contain', 
-        width: 35,
-        height: 35,
-        left: -175,
+        width: 23,
+        height: 23,
+    },
+    closeContainer: {
+        position: 'absolute',
+        right: 25, 
+        top: 45
     },
     close: {
-        position: 'absolute',
         resizeMode: 'contain', 
         width: 35,
         height: 35,
-        left: 135,
     },
     titleText: {
         color: '#4A69D9',
@@ -68,7 +91,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         width: 251,
-        marginTop: 45,
+        marginTop: 55,
     },
     img: {
         resizeMode: 'contain',
@@ -119,6 +142,24 @@ const styles = StyleSheet.create({
         resizeMode:'contain',
         width: 25,
         height: 25
+    },
+    exitContainer: {
+        position: 'absolute', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        bottom: 0, 
+        width: width, 
+        height: 150, 
+        backgroundColor: '#F4F5FA',
+        borderTopLeftRadius: 25, 
+        borderTopRightRadius: 25
+    }, 
+    exitBtn:{
+        backgroundColor: '#4A69D9',
+        borderRadius: 50, 
+        width: 125, 
+        alignItems:'center',
+        padding: 10
     }
 });
 

@@ -11,9 +11,8 @@ import {
 const CreateProfileScreen = ({navigation}) => {
     return (
         <View class="main-page-container" style={styles.container}>
-            <TouchableOpacity>
-                {/* TODO: CHANGE ICON TO BACK ARROW */}
-                <Image style={styles.backArrow} source={require('../../assets/close_icon.png')} />
+            <TouchableOpacity style={styles.backArrowContainer} onPress={() => {navigation.navigate('Onboarding1')}}>
+                <Image style={styles.backArrow} source={require('../../assets/back-arrow.png')} />
             </TouchableOpacity>
 
             <Image style={styles.logo} source={require('../../assets/profile.png')} />
@@ -41,12 +40,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF', 
         alignItems:'center'
     },
-    backArrow: {
+    backArrowContainer: {
         position: 'absolute',
+        left: 25, 
+        top: 45
+    },
+    backArrow: {
         resizeMode: 'contain', 
-        width: 35,
-        height: 35,
-        left: -175,
+        width: 23,
+        height: 23,
     },
     logo: {
         resizeMode: 'contain', 

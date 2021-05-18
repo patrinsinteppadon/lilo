@@ -11,9 +11,8 @@ import {
 const AddNameScreen = ({navigation}) => {
     return (
         <View class="main-page-container" style={styles.contianer}>
-            <TouchableOpacity>
-                {/* TODO: CHANGE ICON TO BACK ARROW */}
-                <Image style={styles.backArrow} source={require('../../assets/close_icon.png')} />
+            <TouchableOpacity style={styles.backArrowContainer} onPress={() => {navigation.navigate('SignUp4')}}>
+                <Image style={styles.backArrow} source={require('../../assets/back-arrow.png')} />
             </TouchableOpacity>
 
             {/* TODO: CHANGE IMAGE */}
@@ -38,12 +37,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF', 
         alignItems:'center'
     },
-    backArrow: {
+    backArrowContainer: {
         position: 'absolute',
+        left: 25, 
+        top: 45
+    },
+    backArrow: {
         resizeMode: 'contain', 
-        width: 35,
-        height: 35,
-        left: -175,
+        width: 23,
+        height: 23,
     },
     logo: {
         resizeMode: 'contain', 

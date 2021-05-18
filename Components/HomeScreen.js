@@ -45,15 +45,6 @@ const HomeScreen = ({ navigation }) => {
                     <Text style={styles.welcomeText}>Welcome,</Text>
                     <Text style={styles.welcomeUsername}>{username}!</Text>
                 </View>
-                {/* <MaterialCommunityIcons 
-                    name="account-circle-outline"
-                    size={30}
-                    onPress={
-                        () => navigation.navigate(
-                            'UserStack', { screen: 'User' }
-                        )
-                    }
-                /> */}
                 <TouchableOpacity onPress={() => navigation.navigate('UserStack', { screen: 'User' })}>
                     <Image source={require('./../assets/profile_icon.png')} style={{resizeMode:'contain', height:35}} />
                 </TouchableOpacity>
@@ -78,13 +69,8 @@ const HomeScreen = ({ navigation }) => {
             </View>
             
             <View style={styles.footer}>
-                    {/* <Button 
-                        title="Learn to request translation" 
-                        color="#4A69D9" 
-                        onPress={() => alert("Showing tips...")}
-                    /> */}
                 <ImageBackground source={require('./../assets/requestor_art.png')} style={{position:'absolute', height: 250, width: width, resizeMode:'contain', bottom:-50}}>
-                    <TouchableOpacity onPress={() => alert("Showing request tutorial...")}>
+                    <TouchableOpacity onPress={() => {navigation.navigate('Tutorial1')}}>
                         <Text style={styles.learnRequest}>Learn how to request a translation</Text>
                     </TouchableOpacity>
                 </ImageBackground>

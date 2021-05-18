@@ -8,30 +8,23 @@ import {
     Image,
 } from 'react-native';
 
-const LoginScreen = ({navigation}) => {
+const SelectChoiceScreen = ({navigation}) => {
     return (
         <View class="main-page-container" style={styles.container}>
 
             <Image style={styles.wave} source={require('../../assets/top_wave.png')} />
 
-            <Image style={styles.logo} source={require('../../assets/wave.png')} />
-            <Text style={styles.titleText}>Log In</Text>
-
-            <Text style={styles.inputLabel}>Username</Text>
-            <TextInput style={styles.textInput} />
-            
-            <Text style={styles.inputLabel}>Password</Text>
-            <TextInput style={styles.textInput} />
+            <View style={{alignItems:'center', top: -145}}>
+                <Text style={styles.titleText}>What would you like to do?</Text>
+                <Image style={styles.img} source={require('../../assets/select-choice.png')} />
+            </View>
 
             <View style={styles.bottom}>
+                <TouchableOpacity style={styles.loginBtn} onPress={() => {navigation.navigate('Onboarding1')}}>
+                    <Text style={styles.loginText}>I need translation help</Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.loginBtn} onPress={() => {navigation.navigate('Home')}}>
-                    <Text style={styles.loginText}>Log in</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text style={styles.forgotText}>Forgot username</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text style={styles.forgotText}>Forgot password</Text>
+                    <Text style={styles.loginText}>I can volunteer to translate</Text>
                 </TouchableOpacity>
             </View>
 
@@ -49,18 +42,17 @@ const styles = StyleSheet.create({
     wave: {
         top: -175
     },
-    logo: {
-        resizeMode: 'contain', 
-        width: 100, 
-        height: 100, 
-        marginTop: -150
+    img: {
+        resizeMode: 'contain',
+        width: 315,
+        height: 281, 
+        marginTop: 25
     },
     titleText: {
         color: '#4A69D9',
         fontSize: 32, 
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: 20
     }, 
     inputLabel: {
         color: '#394248',
@@ -102,4 +94,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LoginScreen;
+export default SelectChoiceScreen;

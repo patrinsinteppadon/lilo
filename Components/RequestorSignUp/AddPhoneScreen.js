@@ -11,22 +11,20 @@ import {
 const AddPhoneScreen = ({navigation}) => {
     return (
         <View class="main-page-container" style={styles.contianer}>
-            <TouchableOpacity>
-                {/* TODO: CHANGE ICON TO BACK ARROW */}
-                <Image style={styles.backArrow} source={require('../../assets/close_icon.png')} />
+            <TouchableOpacity style={styles.backArrowContainer} onPress={() => {navigation.navigate('Onboarding2')}}>
+                <Image style={styles.backArrow} source={require('../../assets/back-arrow.png')} />
             </TouchableOpacity>
 
-            {/* TODO: CHANGE IMAGE */}
             <Image style={styles.logo} source={require('../../assets/phone-num.png')} />
             <Text style={styles.titleText}>Add your number</Text>
 
             <Text style={styles.inputLabel}>Phone number</Text>
             <View style={styles.phoneInput}>
-                <TextInput style={styles.textInputSmall} />
+                <TextInput keyboardType='numeric' style={styles.textInputSmall} />
                 <Text style={styles.dashes}>-</Text>
-                <TextInput style={styles.textInputSmall} />
+                <TextInput keyboardType='numeric' style={styles.textInputSmall} />
                 <Text style={styles.dashes}>-</Text>
-                <TextInput style={styles.textInputLarge} />
+                <TextInput keyboardType='numeric' style={styles.textInputLarge} />
             </View>
             
             <TouchableOpacity style={styles.continueBtn} onPress={() => {navigation.navigate('Onboarding4')}}>
@@ -44,12 +42,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF', 
         alignItems:'center'
     },
-    backArrow: {
+    backArrowContainer: {
         position: 'absolute',
+        left: 25, 
+        top: 45
+    },
+    backArrow: {
         resizeMode: 'contain', 
-        width: 35,
-        height: 35,
-        left: -175,
+        width: 23,
+        height: 23,
     },
     logo: {
         resizeMode: 'contain', 
