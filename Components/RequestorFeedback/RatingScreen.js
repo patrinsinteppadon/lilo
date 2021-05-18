@@ -15,14 +15,12 @@ const width = Dimensions.get('window').width
 
 const RatingScreen = ({navigation}) => {
     const [rating, setRating] = useState(0);
-    const [nextScreen, setScreenPath] = useState(null);
+    const [nextScreen, setScreenPath] = useState('Feedback3');
 
     const ratingComplete = (rating) => {
         setRating(rating)
         if (rating >= 4) {
             setScreenPath('Feedback2')
-        } else {
-            setScreenPath('Feedback3')
         }
     }
 

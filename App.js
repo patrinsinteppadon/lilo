@@ -53,7 +53,7 @@ import RatingScreen from './Components/RequestorFeedback/RatingScreen';
 import GoodFeedbackScreen from './Components/RequestorFeedback/GoodFeebackScreen';
 import BadFeedbackScreen from './Components/RequestorFeedback/BadFeedbackScreen';
 import GoodThanksScreen from './Components/RequestorFeedback/GoodThanksScreen';
-import BadThanksScreen from './Components/RequestorFeedback/BadFeedbackScreen';
+import BadThanksScreen from './Components/RequestorFeedback/BadThanksScreen';
 import RequestNewCallScreen from './Components/RequestorFeedback/RequestNewCallScreen';
 
 // instantiate Navigators
@@ -162,7 +162,7 @@ function HomeStack() {
         name="Feedback2"
         component={GoodFeedbackScreen}
         options={{ title: 'Feedback Page'}}/>
-      {/* <Stack.Screen 
+      <Stack.Screen 
         name="Feedback3"
         component={BadFeedbackScreen}
         options={{ title: 'Feedback Page'}}/>
@@ -177,7 +177,7 @@ function HomeStack() {
       <Stack.Screen 
         name="Feedback6"
         component={BadThanksScreen}
-        options={{ title: 'Thanks Page'}}/> */}
+        options={{ title: 'Thanks Page'}}/>
     </Stack.Navigator>
   );
 }

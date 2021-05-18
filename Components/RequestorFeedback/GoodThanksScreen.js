@@ -4,23 +4,20 @@ import {
     View, 
     Text, 
     TouchableOpacity,
-    TextInput,
     Image,
+    ImageBackground, 
+    Dimensions
 } from 'react-native';
 
-/*
-TODO: 
-    - Change current back arrow function
-    - Add functionality
-*/
-const GoodThanksScreen = () => {
+const width = Dimensions.get('window').width
+
+const GoodThanksScreen = ({navigation}) => {
     return (
         <View class="main-page-container" style={styles.container}>
-            <TouchableOpacity>
-                {/* TODO: CHANGE ICON */}
-                <Image style={styles.backArrow} source={require('../../assets/close_icon.png')} />
+            <TouchableOpacity style={styles.backArrowContainer} onPress={() => {navigation.navigate('Feedback2')}}>
+                <Image style={styles.backArrow} source={require('../../assets/back-arrow.png')} />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity style={styles.closeContainer} onPress={() => {navigation.navigate('Home')}}>
                 <Image style={styles.close} source={require('../../assets/close_icon.png')} />
             </TouchableOpacity>
 
@@ -29,7 +26,7 @@ const GoodThanksScreen = () => {
             <Image style={styles.img} source={require('../../assets/feedback.png')} />
 
             <View style={styles.bottom}>
-                <TouchableOpacity style={styles.nextBtn}>
+                <TouchableOpacity style={styles.nextBtn} onPress={() => {navigation.navigate('Home')}}>
                     <Text style={styles.nextText}>Done</Text>
                 </TouchableOpacity>
             </View>
@@ -45,19 +42,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF', 
         alignItems:'center',
     },
-    backArrow: {
+    backArrowContainer: {
         position: 'absolute',
+        left: 25, 
+        top: 50
+    },
+    backArrow: {
         resizeMode: 'contain', 
-        width: 35,
-        height: 35,
-        left: -175,
+        width: 22.5,
+        height: 22.5,
+    },
+    closeContainer: {
+        position: 'absolute',
+        top: 45, 
+        right: 25
     },
     close: {
-        position: 'absolute',
         resizeMode: 'contain', 
         width: 35,
         height: 35,
-        left: 135
     },
     headerText: {
         color: '#4A69D9',
