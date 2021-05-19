@@ -12,18 +12,18 @@ import {
 const username = "Alexandra";
 const width = Dimensions.get('window').width;
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
     return (
         <View class="main-page-container" style={{ flex: 1, padding: 16, backgroundColor: '#FFFFFF' }}>
-            <ImageBackground source={require('./../assets/home_wave.png')} style={{position:'absolute', width:width, height:200, resizeMode:'cover', top:-10, left:0}}></ImageBackground>
+            <ImageBackground source={require('../../assets/home_wave.png')} style={{position:'absolute', width:width, height:200, resizeMode:'cover', top:-10, left:0}}></ImageBackground>
             <View style={styles.header}>
                 <View>
                     <Text style={styles.welcomeText}>Welcome,</Text>
                     <Text style={styles.welcomeUsername}>{username}!</Text>
                 </View>
                 
-                <TouchableOpacity onPress={() => navigation.navigate('UserStack', { screen: 'User' })}>
-                    <Image source={require('./../assets/profile_icon.png')} style={{resizeMode:'contain', height:35}} />
+                <TouchableOpacity onPress={() => navigation.navigate('TrAcceptCall')}>
+                    <Image source={require('../../assets/profile_icon.png')} style={{resizeMode:'contain', height:35}} />
                 </TouchableOpacity>
             </View>
 
@@ -49,6 +49,8 @@ const HomeScreen = () => {
                 <TouchableOpacity style={styles.learnButton}>
                     <Text style={styles.learnText}>Learn how to accept a call</Text>
                 </TouchableOpacity>
+
+                <Image style={styles.img} source={require('../../assets/translator_art.png')} />
             </View>
         </View>
     );
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         width: 311, 
         padding: 20, 
-        marginTop: 25, 
+        marginTop: 15, 
         marginBottom: 25
     },
     infoTextBold: {
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         alignSelf: 'flex-start',
         width: 300, 
-        marginTop: 15,
+        marginTop: 10,
         marginLeft: 25, 
     },
     learnButton: {
@@ -123,6 +125,12 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 18, 
         fontWeight: 'bold'
+    }, 
+    img: {
+        position: 'absolute',
+        resizeMode: 'contain',
+        height: 240, 
+        bottom: -240,
     }
   });
 

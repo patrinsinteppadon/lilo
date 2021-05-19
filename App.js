@@ -57,14 +57,28 @@ import GoodThanksScreen from './Components/RequestorFeedback/GoodThanksScreen';
 import BadThanksScreen from './Components/RequestorFeedback/BadThanksScreen';
 import RequestNewCallScreen from './Components/RequestorFeedback/RequestNewCallScreen';
 
+// Translator tutorial 
+import AnsweringCallScreen from './Components/TranslatorTutorial/AnsweringCallScreen';
+import PickingUpScreen from './Components/TranslatorTutorial/PickingUpScreen';
+import ReceivingNotifScreen from './Components/TranslatorTutorial/ReceivingNotifScreen';
+import TranslatorTipsScreen from './Components/TranslatorTutorial/TipsScreen';
+
+// Translator pickup 
+import TrHomeScreen from './Components/TranslatorPickup/HomeScreen';
+import AcceptCall from './Components/TranslatorPickup/AcceptCall';
+
+// Translator Feedback
+import TrRatingScreen from './Components/TranslatorFeedback/RatingScreen';
+import TrHelpScreen from './Components/TranslatorFeedback/WhatHelpScreen';
+
 // instantiate Navigators
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 /* 
   schema
-  - 2 tabs on our bottom nav: HomeTab, and UserTab
-  - 2 stacks to supplement the tabs: HomeStack, and UserStack
+  - 1 tab on our bottom nav: HomeTab
+  - 1 stack to supplement the tab: HomeStack
 */
 function HomeStack() {
   return (
@@ -184,28 +198,32 @@ function HomeStack() {
         name="Feedback6"
         component={BadThanksScreen}
         options={{ title: 'Thanks Page'}}/>
-    </Stack.Navigator>
-  );
-}
 
-// seems like more of a backend manifest. Tab Navigator is the frontend part
-// of the navigation, but we send this info along to Settings bc the Settings
-// page will need to navigate you to Details and Profiles if you click on
-// the corresponding button while you're there
-function UserStack() {
-  return (
-    <Stack.Navigator
-      initialRouteName="User"
-      screenOptions={{
-        headerStyle: { backgroundColor: '#4A69D9' },
-        headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: 'bold' },
-        headerShown: false,
-      }}>
-      <Stack.Screen
-        name="User"
-        component={UserScreen}
-        options={{ title: 'User Profile' }}/>
+      {/* Translator pages */}
+      <Stack.Screen 
+        name="TrTutorial1"
+        component={AnsweringCallScreen} />
+      <Stack.Screen 
+        name="TrTutorial2"
+        component={ReceivingNotifScreen} />
+      <Stack.Screen 
+        name="TrTutorial3"
+        component={PickingUpScreen} />
+      <Stack.Screen 
+        name="TrTutorial4"
+        component={TranslatorTipsScreen} />
+      <Stack.Screen 
+        name="TrHome"
+        component={TrHomeScreen} />
+      <Stack.Screen 
+        name="TrAcceptCall"
+        component={AcceptCall} />
+      <Stack.Screen 
+        name="TrFeedback1"
+        component={TrRatingScreen} />
+      <Stack.Screen 
+        name="TrFeedback3"
+        component={TrHelpScreen} />
     </Stack.Navigator>
   );
 }
@@ -229,21 +247,6 @@ export default function App() {
                 />
               ),
             }}  
-          />
-          <Tab.Screen
-            name="UserStack"
-            component={UserStack}
-            options={{
-              tabBarVisible: false,
-              tabBarLabel: 'Profile',
-              tabBarIcon: ({color, size}) => (
-                <MaterialCommunityIcons 
-                  name="human"
-                  color={color}
-                  size={size}
-                />
-              ),
-            }}
           />
         </Tab.Navigator>
       </NavigationContainer>

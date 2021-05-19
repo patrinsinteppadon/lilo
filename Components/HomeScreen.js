@@ -9,31 +9,10 @@ import {
     ImageBackground,
     Dimensions
 } from 'react-native';
-import
- MaterialCommunityIcons
-from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const username = "Bill";
 const width = Dimensions.get('window').width;
 
-/**
- * Questions for tiffany
- * 1 - Is there a specific name for these elements?
- *          - the bubble surrounding "2 minutes"
- *              - a label, or a badge
- *          - the hovering action that says "tips to talk to a translator"
- *              - 
- * 
- * TODO: 
- *  - Finish lowfi mockup for home page
- *  - Create Select Language modal.  https://reactnative.dev/docs/modal
- *       - convert modal into a separate component
- *       - figure out how to dim the main screen while modal is active
- *          (maybe set background to black, with transparency. see info340)
- *       - fill out the remainder of the modal, to match the hi-fi
- *  - create empty screen which will house the Call
- *  - Figure out how to use Icons from react-native-elements library
- */
 const HomeScreen = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -45,7 +24,7 @@ const HomeScreen = ({ navigation }) => {
                     <Text style={styles.welcomeText}>Welcome,</Text>
                     <Text style={styles.welcomeUsername}>{username}!</Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('UserStack', { screen: 'User' })}>
+                <TouchableOpacity>
                     <Image source={require('./../assets/profile_icon.png')} style={{resizeMode:'contain', height:35}} />
                 </TouchableOpacity>
             </View>

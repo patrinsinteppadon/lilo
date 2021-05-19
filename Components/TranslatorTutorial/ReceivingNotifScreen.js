@@ -1,27 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     StyleSheet, 
     View, 
     Text, 
     TouchableOpacity,
     Image,
+    Dimensions
 } from 'react-native';
 
-const ReceivingNotifScreen = () => {
+const width = Dimensions.get('window').width
+
+const ReceivingNotifScreen = ({navigation}) => {
+    const [show, setShow] = useState(false);
+
     return (
         <View class="main-page-container" style={styles.contianer}>
-            <TouchableOpacity>
-                {/* TODO: CHANGE ICON TO BACK ARROW */}
-                <Image style={styles.backArrow} source={require('../../assets/close_icon.png')} />
+            <TouchableOpacity style={styles.backArrowContainer} onPress={() => {navigation.navigate('TrTutorial1')}}>
+                <Image style={styles.backArrow} source={require('../../assets/back-arrow.png')} />
             </TouchableOpacity> 
-            <TouchableOpacity>
+            <TouchableOpacity style={styles.closeContainer} onPress={() => {setShow(true)}}>
                 <Image style={styles.close} source={require('../../assets/close_icon.png')} />
             </TouchableOpacity>
 
             <Text style={styles.titleText}>Receiving a notification</Text>
+            <Image style={styles.img} source={require('../../assets/t-tutorial-2.png')} />
             <Text style={styles.text}>When someone requests translation help, you will be notified. </Text>
-
-            {/* TODO: ADD IMAGE HERE */}
 
             <View style={styles.bottom}>
                 <View style={styles.circleContainer}>
@@ -31,10 +34,23 @@ const ReceivingNotifScreen = () => {
                     <View style={styles.circle}></View>
                 </View>
 
-                <TouchableOpacity style={styles.nextBtn}>
+                <TouchableOpacity style={styles.nextBtn} onPress={() => {navigation.navigate('TrTutorial3')}}>
                     <Image style={styles.nextArrow} source={require('../../assets/ic-arrow-upward-24px.png')} />
                 </TouchableOpacity>
             </View>
+
+            {show ? 
+            (<View style={styles.exitContainer}>
+                <Text style={{fontSize:18, color:'#394248'}}>Exit tutorial?</Text>
+                <View style={{flexDirection:'row', justifyContent:'space-around', marginTop: 20}}>
+                    <TouchableOpacity style={{width:125, alignItems:'center', padding:10}} onPress={() => {setShow(false)}}>
+                        <Text style={{fontSize:18, color:'#394248'}}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.exitBtn} onPress={() => {navigation.navigate('TrHome')}}>
+                        <Text style={{fontSize:18, color:'#FFF', fontWeight:'bold'}}>Exit</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>): null}
 
         </View>
     );
@@ -47,19 +63,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF', 
         alignItems:'center'
     },
-    backArrow: {
+    backArrowContainer: {
         position: 'absolute',
+        left: 25, 
+        top: 50
+    },
+    backArrow: {
         resizeMode: 'contain', 
-        width: 35,
-        height: 35,
-        left: -175,
+        width: 23,
+        height: 23,
+    },
+    closeContainer: {
+        position: 'absolute',
+        right: 25, 
+        top: 45
     },
     close: {
-        position: 'absolute',
         resizeMode: 'contain', 
         width: 35,
         height: 35,
-        left: 135,
     },
     titleText: {
         color: '#4A69D9',
@@ -67,18 +89,24 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         width: 251,
-        marginTop: 45,
+        marginTop: 75,
+    },
+    img: {
+        resizeMode: 'contain',
+        width: 286,
+        height: 289, 
+        marginTop: 15
     },
     text: {
         color: '#394248',
         fontSize: 18,
         textAlign: 'center',
-        width: 300,
+        width: 275,
         marginTop: 25
     },
     bottom: {
         position: 'absolute',
-        bottom: 50, 
+        bottom: 30, 
         width: 325
     },
     circleContainer: {
@@ -106,13 +134,31 @@ const styles = StyleSheet.create({
         width: 60,
         justifyContent:'center',
         alignItems: 'center', 
-        marginTop: 25, 
+        marginTop: 15, 
         alignSelf: 'flex-end'
     },
     nextArrow: {
         resizeMode:'contain',
         width: 25,
         height: 25
+    },
+    exitContainer: {
+        position: 'absolute', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        bottom: 0, 
+        width: width, 
+        height: 150, 
+        backgroundColor: '#F4F5FA',
+        borderTopLeftRadius: 25, 
+        borderTopRightRadius: 25
+    }, 
+    exitBtn:{
+        backgroundColor: '#4A69D9',
+        borderRadius: 50, 
+        width: 125, 
+        alignItems:'center',
+        padding: 10
     }
 });
 

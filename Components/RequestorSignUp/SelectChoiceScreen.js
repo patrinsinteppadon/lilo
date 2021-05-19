@@ -23,7 +23,7 @@ const SelectChoiceScreen = ({navigation}) => {
                 <TouchableOpacity style={styles.loginBtn} onPress={() => {navigation.navigate('Onboarding1')}}>
                     <Text style={styles.loginText}>I need translation help</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.loginBtn} onPress={() => {navigation.navigate('Home')}}>
+                <TouchableOpacity style={styles.loginBtn} onPress={() => {navigation.navigate('TrTutorial1')}}>
                     <Text style={styles.loginText}>I can volunteer to translate</Text>
                 </TouchableOpacity>
             </View>
