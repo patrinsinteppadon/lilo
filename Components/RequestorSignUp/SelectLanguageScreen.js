@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     StyleSheet, 
     View, 
@@ -7,7 +7,11 @@ import {
     Image,
 } from 'react-native';
 
+import { RadioButton } from 'react-native-paper';
+
 const SelectLanguageScreen = ({navigation}) => {
+    const [checked, setChecked] = useState('english')
+
     return (
         <View class="main-page-container" style={styles.contianer}>
             <Image style={styles.wave} source={require('../../assets/top_wave.png')} />
@@ -17,14 +21,32 @@ const SelectLanguageScreen = ({navigation}) => {
             <Text style={styles.smallText}>This is what you will read the app in. You can select your spoken language for translation later.</Text>
 
             <View style={styles.languageContainer}>
-                <View>
+                <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
                     <Text style={styles.languageText}>English</Text>
+                    <RadioButton
+                        value='english'
+                        status={checked === 'english' ? 'checked' : 'unchecked'}
+                        onPress={() => setChecked('english')}
+                        color='#4A69D9'
+                    />
                 </View>
-                <View>
+                <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
                     <Text style={styles.languageText}>Espanõl</Text>
+                    <RadioButton
+                        value='spanish'
+                        status={checked === 'spanish' ? 'checked' : 'unchecked'}
+                        onPress={() => setChecked('spanish')}
+                        color='#4A69D9'
+                    />
                 </View>
-                <View>
+                <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
                     <Text style={styles.languageText}>繁体中文</Text>
+                    <RadioButton
+                        value='chinese'
+                        status={checked === 'chinese' ? 'checked' : 'unchecked'}
+                        onPress={() => setChecked('chinese')}
+                        color='#4A69D9'
+                    />
                 </View>
             </View>
 
