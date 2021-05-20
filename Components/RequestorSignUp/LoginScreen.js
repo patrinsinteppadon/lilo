@@ -6,7 +6,10 @@ import {
     TouchableOpacity,
     TextInput,
     Image,
+    Dimensions
 } from 'react-native';
+
+const height = Dimensions.get('window').height
 
 const LoginScreen = ({navigation}) => {
     return (
@@ -21,7 +24,7 @@ const LoginScreen = ({navigation}) => {
             <TextInput style={styles.textInput} />
             
             <Text style={styles.inputLabel}>Password</Text>
-            <TextInput style={styles.textInput} />
+            <TextInput secureTextEntry style={styles.textInput} />
 
             <View style={styles.bottom}>
                 <TouchableOpacity style={styles.loginBtn} onPress={() => {navigation.navigate('Home')}}>
@@ -98,7 +101,8 @@ const styles = StyleSheet.create({
     bottom: {
         position: 'absolute',
         alignItems: 'center',
-        bottom: 40
+        bottom: 40,
+        top: height - 200
     }
 });
 
