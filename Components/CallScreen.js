@@ -27,7 +27,6 @@ const CallScreen = ({ navigation }) => {
     const [playAudio, setAudio] = useState(true);
     const [playVideo, setVideo] = useState(true);
     const [endCall, setEndCall] = useState(false);
-    const [tempRemote, setTempRemote] = useState(null);
 
     const video = useSelector(state => state.video);
     const dispatch = useDispatch();
@@ -36,11 +35,6 @@ const CallScreen = ({ navigation }) => {
     useEffect(() => {
         startCall();
     }, [])
-
-    const getRemoteVideo = async () => {
-        let s = await mediaDevices.getUserMedia({audio:true, video:{ facingMode: "environment" }})
-        setTempRemote(s)
-    }
 
     const startCall = async () => {
         console.log("start local video")
@@ -160,7 +154,7 @@ const CallScreen = ({ navigation }) => {
                 <View style={{justifyContent:'center'}}>
                     {/* close icon */}
                     {/* TODO: add onPress -> leave page */}
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
                         <Image source={require('./../assets/close_icon.png')} style={{alignSelf:'flex-end', resizeMode:'contain', height:35, marginTop:20}} />
                     </TouchableOpacity>
 
@@ -218,16 +212,12 @@ const CallScreen = ({ navigation }) => {
                     objectFit='cover' 
                     style={{backgroundColor:'black', height:height }} 
                     streamURL={tempRemote.toURL()} />) : null}
-                    
-
-                    {endCallConf}
                 
                     {/* display local video stream */}
                     {myStream ? (<RTCView 
                     objectFit='cover' 
                     style={{position:'absolute', backgroundColor:'black', height:100, width:height*0.2, bottom:0, right:20, marginBottom:155}} 
                     streamURL={myStream.toURL()} />) : null}
-                    
                 
                     {/* video call controls */}
                     <View style={{position:'absolute', bottom:0, width:width, height: 135, flexDirection:'row', justifyContent:'space-evenly', backgroundColor:'rgba(0, 0, 0, 1)', paddingTop:10, paddingBottom:10, borderTopLeftRadius:0, borderTopRightRadius:0}}>
