@@ -21,9 +21,9 @@ const CreateProfileScreen = ({navigation}) => {
             <Text style={styles.firstInputLabel}>Username</Text>
             <TextInput style={styles.textInput} />
             <Text style={styles.inputLabel}>Password</Text>
-            <TextInput style={styles.textInput} />
+            <TextInput secureTextEntry style={styles.textInput} />
             <Text style={styles.inputLabel}>Confirm Password</Text>
-            <TextInput style={styles.textInput} />
+            <TextInput secureTextEntry style={styles.textInput} />
 
             <TouchableOpacity style={styles.continueBtn} onPress={() => {navigation.navigate('Onboarding3')}}>
                 <Text style={styles.continueText}>Continue</Text>
