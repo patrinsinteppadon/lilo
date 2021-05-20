@@ -6,7 +6,10 @@ import {
     TouchableOpacity,
     TextInput,
     Image,
+    Dimensions
 } from 'react-native';
+
+const height = Dimensions.get('window').height
 
 const CreateProfileScreen = ({navigation}) => {
     return (
@@ -94,7 +97,8 @@ const styles = StyleSheet.create({
         marginTop: 25,
         position: 'absolute',
         alignItems: 'center',
-        bottom: 40
+        bottom: 40, 
+        top: height - 150
     }, 
     continueText: {
         color: 'white',
