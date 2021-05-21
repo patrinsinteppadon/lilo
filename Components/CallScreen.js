@@ -34,7 +34,7 @@ const CallScreen = ({ navigation }) => {
 
     useEffect(() => {
         startCall();
-    }, [])
+    }, [playVideo, playAudio, isFront])
 
     const startCall = async () => {
         console.log("start local video")
@@ -73,17 +73,14 @@ const CallScreen = ({ navigation }) => {
 
     const playVideoSwitch = async () => {
         setVideo(playVideo == true ? false : true);
-        startCall();
     }
 
     const playAudioSwitch = async () => {
         setAudio(playAudio == true ? false: true);
-        startCall();
     }
 
     const flipCamera = async () => {
         setIsFront(isFront == true ? false : true);
-        startCall();
     }
 
     const endInitialCall = () => {
@@ -97,7 +94,7 @@ const CallScreen = ({ navigation }) => {
     // CALL CONTROLS ------->
     // color for call control text 
     let controlTextColor = '#394248';
-    if (tempRemote != null) {
+    if (remoteStream != null) {
       controlTextColor = 'white';
     }
 
@@ -208,10 +205,10 @@ const CallScreen = ({ navigation }) => {
             ) : (
                 <View>
                     {/* display remote video stream */}
-                    {tempRemote ? (<RTCView 
+                    {remoteStream ? (<RTCView 
                     objectFit='cover' 
                     style={{backgroundColor:'black', height:height }} 
-                    streamURL={tempRemote.toURL()} />) : null}
+                    streamURL={remoteStream.toURL()} />) : null}
                 
                     {/* display local video stream */}
                     {myStream ? (<RTCView 

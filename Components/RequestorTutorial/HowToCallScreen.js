@@ -15,7 +15,7 @@ const HowToCallScreen = ({navigation}) => {
 
     return (
         <View class="main-page-container" style={styles.contianer}>
-            <TouchableOpacity style={styles.backArrowContainer} onPress={() => {navigation.navigate('Onboarding4')}}>
+            <TouchableOpacity style={styles.backArrowContainer} onPress={() => {navigation.navigate('Onboarding5')}}>
                 <Image style={styles.backArrow} source={require('../../assets/back-arrow.png')} />
             </TouchableOpacity> 
             <TouchableOpacity style={styles.closeContainer} onPress={() => {setShow(true)}}>

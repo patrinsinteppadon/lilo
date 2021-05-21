@@ -28,7 +28,7 @@ const RatingScreen = ({navigation}) => {
         <View class="main-page-container" style={styles.container}>
             <ImageBackground style={styles.img} source={require('../../assets/top_wave-3.png')} />
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
                 <Image style={styles.close} source={require('../../assets/close_icon.png')} />
             </TouchableOpacity>
 

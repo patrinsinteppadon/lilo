@@ -35,7 +35,7 @@ const TranslationLangScreen = ({navigation}) => {
                 </TouchableOpacity>
             </View>
             
-            <TouchableOpacity style={styles.continueBtn} onPress={() => {navigation.navigate('Tutorial1')}}>
+            <TouchableOpacity style={styles.continueBtn} onPress={() => {navigation.navigate('Onboarding5')}}>
                 <Text style={styles.continueText}>Continue</Text>
             </TouchableOpacity>
 

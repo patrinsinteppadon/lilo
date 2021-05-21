@@ -42,6 +42,7 @@ import AddNameScreen from './Components/RequestorSignUp/AddNameScreen';
 import CreateProfileScreen from './Components/RequestorSignUp/CreateProfileScreen';
 import AddPhoneScreen from './Components/RequestorSignUp/AddPhoneScreen';
 import TranslationLangScreen from './Components/RequestorSignUp/TranslationLangScreen';
+import AccessibilityScreen from './Components/RequestorSignUp/AccessibilityScreen'
 
 // Requestor tutorial 
 import HowToCallScreen from './Components/RequestorTutorial/HowToCallScreen';
@@ -139,6 +140,11 @@ function HomeStack() {
         name="Onboarding4"
         component={TranslationLangScreen}
         options={{ title: 'Choose translation language page'}} 
+      /> 
+      <Stack.Screen 
+        name="Onboarding5"
+        component={AccessibilityScreen}
+        options={{ title: 'Accessibility page'}} 
       /> 
       <Stack.Screen 
         name="Tutorial1"
